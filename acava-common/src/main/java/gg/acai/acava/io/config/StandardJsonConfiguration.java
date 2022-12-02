@@ -50,9 +50,14 @@ public final class StandardJsonConfiguration<T> implements JsonConfiguration<T> 
 
     @Override @SuppressWarnings("unchecked")
     public Stream<T> stream() {
-        return this.map.values()
-                .stream()
-                .map(value -> (T) value);
+        try {
+            return this.map.values()
+                    .stream()
+                    .map(value -> (T) value);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
