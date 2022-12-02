@@ -2,6 +2,7 @@ package gg.acai.acava.io.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +17,9 @@ import java.util.Map;
  * © Acava - All Rights Reserved
  */
 public class JsonMapConstructor {
+
+    private static final Type MAP = new TypeToken<Map<String, Object>>(){}
+            .getType();
 
     private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
@@ -34,6 +38,10 @@ public class JsonMapConstructor {
         }
         String json = GSON.toJson(constructor, type);
         this.map = GSON.fromJson(json, type);
+    }
+
+    public JsonMapConstructor(String json) {
+        this.map = GSON.fromJson(json, MAP);
     }
 
     /**
