@@ -10,6 +10,7 @@
     <version>1.0</version>
     <modules>
         <module>acava-common</module>
+        <module>acava-mongo</module>
     </modules>
 
     <properties>
