@@ -3,6 +3,7 @@ package gg.acai.acava;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import gg.acai.acava.entity.Entity;
+import gg.acai.acava.io.Closeable;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
