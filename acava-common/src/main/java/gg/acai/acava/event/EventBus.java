@@ -22,9 +22,8 @@ public final class EventBus {
     }
 
     public void postAsync(Event event) {
-        CompletableFuture.supplyAsync(() -> {
+        CompletableFuture.runAsync(() -> {
             post(event);
-            return null;
         });
     }
 
@@ -39,16 +38,14 @@ public final class EventBus {
     }
 
     public void postAssignedAsync(Event event, Class<? extends EventListener> listener) {
-        CompletableFuture.supplyAsync(() -> {
+        CompletableFuture.runAsync(() -> {
             compositeSubscriptions.get(listener).onEvent(event);
-            return null;
         });
     }
 
     public void postAssignedAsync(Event event, EventListener listener) {
-        CompletableFuture.supplyAsync(() -> {
+        CompletableFuture.runAsync(() -> {
             listener.onEvent(event);
-            return null;
         });
     }
 
