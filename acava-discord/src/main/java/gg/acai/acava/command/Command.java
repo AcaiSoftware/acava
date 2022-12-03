@@ -35,7 +35,7 @@ public class Command {
     }
 
     public Command data(String name) {
-        return data(name, "");
+        return data(name, "N/A");
     }
 
     public Command action(Action<SlashCommandInteractionEvent> action) {
