@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="acava-mongo" />
+        <module name="acava-discord" />
         <module name="acava-common" />
       </profile>
     </annotationProcessing>
