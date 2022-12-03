@@ -17,7 +17,7 @@ import java.util.Set;
 public final class CompositeEventBus implements EventBus {
 
     private final Map<Class<? extends EventListener>, EventListener> compositeSubscriptions;
-    private final Map<Class<? extends Event>, Set<Action<Event>>> directSubscriptions;
+    private final Map<Class<? extends Event>, Set<Action<? super Event>>> directSubscriptions;
 
     public CompositeEventBus() {
         this.compositeSubscriptions = new HashMap<>();
@@ -28,7 +28,12 @@ public final class CompositeEventBus implements EventBus {
     public EventBus post(Scheduler scheduler, Event event) {
         scheduler.execute(() -> {
             compositeSubscriptions.values().forEach(listener -> listener.onEvent(event));
-            directSubscriptions.values().forEach(actions -> actions.forEach(action -> action.accept(event)));
+
+            if (directSubscriptions.containsKey(event.getClass())) {
+                Class<? extends Event> clazz = event.getClass();
+                Set<Action<? super Event>> actions = directSubscriptions.get(clazz);
+                actions.forEach(action -> action.accept(event));
+            }
         });
         return this;
     }
