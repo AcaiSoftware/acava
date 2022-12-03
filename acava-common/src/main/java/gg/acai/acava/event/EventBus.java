@@ -1,8 +1,9 @@
 package gg.acai.acava.event;
 
+import gg.acai.acava.scheduler.Schedulers;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Clouke
@@ -22,7 +23,7 @@ public final class EventBus {
     }
 
     public void postAsync(Event event) {
-        CompletableFuture.runAsync(() -> {
+        Schedulers.async().execute(() -> {
             post(event);
         });
     }
@@ -38,13 +39,13 @@ public final class EventBus {
     }
 
     public void postAssignedAsync(Event event, Class<? extends EventListener> listener) {
-        CompletableFuture.runAsync(() -> {
+        Schedulers.async().execute(() -> {
             compositeSubscriptions.get(listener).onEvent(event);
         });
     }
 
     public void postAssignedAsync(Event event, EventListener listener) {
-        CompletableFuture.runAsync(() -> {
+        Schedulers.async().execute(() -> {
             listener.onEvent(event);
         });
     }
