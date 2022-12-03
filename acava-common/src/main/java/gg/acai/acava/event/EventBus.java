@@ -1,76 +1,80 @@
 package gg.acai.acava.event;
 
-import gg.acai.acava.scheduler.Schedulers;
+import gg.acai.acava.function.Action;
+import gg.acai.acava.scheduler.Scheduler;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author Clouke
- * @since 02.12.2022 18:45
+ * @since 03.12.2022 18:45
  * © Acava - All Rights Reserved
  */
-public final class EventBus {
+public interface EventBus {
 
-    private final Map<Class<? extends EventListener>, EventListener> compositeSubscriptions;
+    /**
+     * Posts an event to the event bus with the given scheduler.
+     *
+     * @param scheduler The scheduler to post the event with.
+     * @param event The event to post.
+     */
+    EventBus post(Scheduler scheduler, Event event);
 
-    public EventBus() {
-        this.compositeSubscriptions = new HashMap<>();
-    }
+    /**
+     * Posts an event to the event bus.
+     *
+     * @param event The event to post.
+     */
+    EventBus post(Event event);
 
-    public void post(Event event) {
-        compositeSubscriptions.values().forEach(listener -> listener.onEvent(event));
-    }
+    /**
+     * Posts an event to the event bus with the given scheduler and only to the given listener.
+     *
+     * @param scheduler The scheduler to post the event with.
+     * @param event The event to post.
+     * @param listener The listener to post the event to.
+     */
+    EventBus postAssigned(Scheduler scheduler, Event event, EventListener listener);
 
-    public void postAsync(Event event) {
-        Schedulers.async().execute(() -> {
-            post(event);
-        });
-    }
+    /**
+     * Listens to a direct event.
+     *
+     * @param rawClass The class of the event.
+     * @param action The action to execute when the event is fired.
+     */
+    EventBus listenDirect(Class<? extends Event> rawClass, Action<Event> action);
 
-    public void postAssigned(Event event, EventListener listener) {
-        listener.onEvent(event);
-    }
+    /**
+     * Registers a listener to the event bus.
+     *
+     * @param listenerClass The class of the listener.
+     */
+    EventBus register(Class<? extends EventListener> listenerClass);
 
-    public void postAssigned(Event event, Class<? extends EventListener> listener) {
-        EventListener eventListener = compositeSubscriptions.get(listener);
-        if (eventListener != null)
-            eventListener.onEvent(event);
-    }
+    /**
+     * Registers a listener to the event bus.
+     *
+     * @param listener The listener to register.
+     */
+    EventBus register(EventListener listener);
 
-    public void postAssignedAsync(Event event, Class<? extends EventListener> listener) {
-        Schedulers.async().execute(() -> {
-            compositeSubscriptions.get(listener).onEvent(event);
-        });
-    }
+    /**
+     * Unregisters a listener from the event bus.
+     *
+     * @param listenerClass The class of the listener.
+     */
+    EventBus unregister(Class<? extends EventListener> listenerClass);
 
-    public void postAssignedAsync(Event event, EventListener listener) {
-        Schedulers.async().execute(() -> {
-            listener.onEvent(event);
-        });
-    }
+    /**
+     * Gets a listener from the event bus.
+     *
+     * @param listenerClass The class of the listener.
+     */
+    EventListener get(Class<? extends EventListener> listenerClass);
 
-    public void register(Class<? extends EventListener> listenerClass) {
-        try {
-            this.compositeSubscriptions.put(listenerClass, listenerClass.newInstance());
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
+    /**
+     * Gets all listeners from the event bus.
+     */
+    Map<Class<? extends EventListener>, EventListener> asMap();
 
-    public void register(EventListener listener) {
-        this.compositeSubscriptions.put(listener.getClass(), listener);
-    }
-
-    public void unregister(Class<? extends EventListener> listenerClass) {
-        this.compositeSubscriptions.remove(listenerClass);
-    }
-
-    public EventListener get(Class<? extends EventListener> listenerClass) {
-        return this.compositeSubscriptions.get(listenerClass);
-    }
-
-    public Map<Class<? extends EventListener>, EventListener> asMap() {
-        return this.compositeSubscriptions;
-    }
 }
