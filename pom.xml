@@ -11,6 +11,7 @@
     <modules>
         <module>acava-common</module>
         <module>acava-mongo</module>
+        <module>acava-discord</module>
     </modules>
 
     <properties>
