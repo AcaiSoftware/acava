@@ -54,6 +54,18 @@ public final class CommandRegistry implements Closeable {
     }
 
     /**
+     * Register commands to the registry.
+     *
+     * @param commands {@link ICommand[]} to register.
+     */
+    public void register(ICommand... commands) {
+        for (ICommand command : commands) {
+            this.commands.put(command.getClass(), command);
+        }
+        update();
+    }
+
+    /**
      * Registers a command directly from {@link Command}.
      *
      * @param command {@link Command} to register.
