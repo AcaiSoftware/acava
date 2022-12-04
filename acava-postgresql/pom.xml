@@ -16,4 +16,12 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency> <!-- Acai Common -->
+            <groupId>gg.acai</groupId>
+            <artifactId>acava-common</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
 </project>
