@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="acava-mongo" />
         <module name="acava-discord" />
+        <module name="acava-postgresql" />
         <module name="acava-common" />
       </profile>
     </annotationProcessing>
