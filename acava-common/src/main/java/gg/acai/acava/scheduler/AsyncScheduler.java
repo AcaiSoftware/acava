@@ -3,6 +3,7 @@ package gg.acai.acava.scheduler;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Supplier;
 
 /**
  * @author Clouke
@@ -31,6 +32,11 @@ public class AsyncScheduler implements Scheduler {
     @Override
     public SchedulerTask createTask() {
         return new AsyncSchedulerTask();
+    }
+
+    @Override
+    public <T> T supply(Supplier<T> supplier) {
+        return CompletableFuture.supplyAsync(supplier, executor == null ? CACHED_EXECUTOR : executor).join();
     }
 
     @Override

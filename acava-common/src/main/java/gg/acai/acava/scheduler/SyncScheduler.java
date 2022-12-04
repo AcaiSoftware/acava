@@ -1,5 +1,7 @@
 package gg.acai.acava.scheduler;
 
+import java.util.function.Supplier;
+
 /**
  * @author Clouke
  * @since 03.12.2022 12:39
@@ -16,6 +18,11 @@ public class SyncScheduler implements Scheduler {
     @Override
     public SchedulerTask createTask() {
         return new SyncSchedulerTask();
+    }
+
+    @Override
+    public <T> T supply(Supplier<T> supplier) {
+        return supplier.get();
     }
 
     @Override
