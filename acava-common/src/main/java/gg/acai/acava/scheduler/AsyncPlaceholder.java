@@ -9,8 +9,17 @@ import gg.acai.acava.io.Callback;
  */
 public interface AsyncPlaceholder<T> {
 
+    /**
+     * Executes the callback when the placeholder is completed
+     * @param callback The callback
+     * @return Returns the placeholder
+     */
     AsyncPlaceholder<T> whenComplete(Callback<T> callback);
 
+    /**
+     * Gets the value
+     * @return The value
+     */
     T get();
 
 }
