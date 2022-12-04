@@ -9,6 +9,10 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import gg.acai.acava.entity.Entity;
 import gg.acai.acava.entity.EntityGenerator;
+import gg.acai.acava.scheduler.AsyncPlaceholder;
+import gg.acai.acava.scheduler.AsyncPlaceholderDef;
+import gg.acai.acava.scheduler.Scheduler;
+import gg.acai.acava.scheduler.Schedulers;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -108,8 +112,9 @@ public final class MongoServer implements MongoComponent {
     }
 
     @Override
-    public CompletableFuture<Entity> generateEntityAsync(MongoCollection<Document> collection, Bson filters) {
-        return CompletableFuture.supplyAsync(() -> generateEntity(collection, filters));
+    public AsyncPlaceholder<Entity> generateEntityAsync(MongoCollection<Document> collection, Bson filters) {
+        Scheduler scheduler = Schedulers.async();
+        return scheduler.supply(() -> new AsyncPlaceholderDef<>(generateEntity(collection, filters), scheduler));
     }
 
     @Override

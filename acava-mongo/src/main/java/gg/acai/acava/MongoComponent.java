@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import gg.acai.acava.entity.Entity;
 import gg.acai.acava.io.Closeable;
+import gg.acai.acava.scheduler.AsyncPlaceholder;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -56,9 +57,9 @@ public interface MongoComponent extends Closeable {
      *
      * @param collection The collection to generate the entity from.
      * @param filters The filters to apply to the collection.
-     * @return A completable future containing the entity.
+     * @return An async placeholder containing the entity.
      */
-    CompletableFuture<Entity> generateEntityAsync(MongoCollection<Document> collection, Bson filters);
+    AsyncPlaceholder<Entity> generateEntityAsync(MongoCollection<Document> collection, Bson filters);
 
     /**
      * Search for a specific value in a collection.
