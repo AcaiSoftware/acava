@@ -1,6 +1,7 @@
 package gg.acai.acava.scheduler;
 
 import java.util.concurrent.ExecutorService;
+import java.util.function.Supplier;
 
 /**
  * @author Clouke
@@ -19,6 +20,16 @@ public final class Schedulers {
 
     public static Scheduler sync() {
         return new SyncScheduler();
+    }
+
+    public static <T> AsyncPlaceholder<T> supplyAsync(Supplier<T> supplier) {
+        Scheduler scheduler = async();
+        return scheduler.supply(() -> new AsyncPlaceholderDef<>(supplier, scheduler));
+    }
+
+    public static <T> AsyncPlaceholder<T> supplyAsync(Supplier<T> supplier, ExecutorService executor) {
+        Scheduler scheduler = async(executor);
+        return scheduler.supply(() -> new AsyncPlaceholderDef<>(supplier, scheduler));
     }
 
 }

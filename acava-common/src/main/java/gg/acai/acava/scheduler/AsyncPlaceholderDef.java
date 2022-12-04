@@ -2,6 +2,8 @@ package gg.acai.acava.scheduler;
 
 import gg.acai.acava.io.Callback;
 
+import java.util.function.Supplier;
+
 /**
  * @author Clouke
  * @since 04.12.2022 01:42
@@ -14,6 +16,11 @@ public class AsyncPlaceholderDef<T> implements AsyncPlaceholder<T> {
 
     public AsyncPlaceholderDef(T value, Scheduler scheduler) {
         this.value = value;
+        this.scheduler = scheduler;
+    }
+
+    public AsyncPlaceholderDef(Supplier<T> supplier, Scheduler scheduler) {
+        this.value = supplier.get();
         this.scheduler = scheduler;
     }
 

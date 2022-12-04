@@ -47,8 +47,7 @@ public final class PostgreConnection implements PostgreComponent {
 
     @Override
     public AsyncPlaceholder<PostgreComponent> connectAsync() {
-        Scheduler scheduler = Schedulers.async();
-        return scheduler.supply(() -> new AsyncPlaceholderDef<>(connect(), scheduler));
+        return Schedulers.supplyAsync(this::connect);
     }
 
     @Override
@@ -58,8 +57,7 @@ public final class PostgreConnection implements PostgreComponent {
 
     @Override
     public AsyncPlaceholder<Connection> getConnectionAsync() {
-        Scheduler scheduler = Schedulers.async();
-        return scheduler.supply(() -> new AsyncPlaceholderDef<>(getConnection(), scheduler));
+        return Schedulers.supplyAsync(this::getConnection);
     }
 
     @Override
