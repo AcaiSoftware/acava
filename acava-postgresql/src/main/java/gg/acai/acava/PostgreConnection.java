@@ -1,7 +1,13 @@
 package gg.acai.acava;
 
+import gg.acai.acava.scheduler.AsyncPlaceholder;
+import gg.acai.acava.scheduler.AsyncPlaceholderDef;
+import gg.acai.acava.scheduler.Scheduler;
+import gg.acai.acava.scheduler.Schedulers;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * @author Clouke
@@ -40,8 +46,29 @@ public final class PostgreConnection implements PostgreComponent {
     }
 
     @Override
+    public AsyncPlaceholder<PostgreComponent> connectAsync() {
+        Scheduler scheduler = Schedulers.async();
+        return scheduler.supply(() -> new AsyncPlaceholderDef<>(connect(), scheduler));
+    }
+
+    @Override
     public Connection getConnection() {
         return this.connection;
+    }
+
+    @Override
+    public AsyncPlaceholder<Connection> getConnectionAsync() {
+        Scheduler scheduler = Schedulers.async();
+        return scheduler.supply(() -> new AsyncPlaceholderDef<>(getConnection(), scheduler));
+    }
+
+    @Override
+    public void close() {
+        try {
+            this.connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static class Builder {
