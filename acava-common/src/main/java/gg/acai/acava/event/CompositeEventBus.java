@@ -26,21 +26,19 @@ public final class CompositeEventBus implements EventBus {
 
     @Override
     public EventBus post(Scheduler scheduler, Event event) {
-        scheduler.execute(() -> {
-            compositeSubscriptions.values().forEach(listener -> listener.onEvent(event));
-
-            if (directSubscriptions.containsKey(event.getClass())) {
-                Class<? extends Event> clazz = event.getClass();
-                Set<Action<? super Event>> actions = directSubscriptions.get(clazz);
-                actions.forEach(action -> action.accept(event));
-            }
-        });
-        return this;
+        return scheduler.supply(() -> post(event));
     }
 
     @Override
     public EventBus post(Event event) {
-        return post(Schedulers.sync(), event);
+        compositeSubscriptions.values().forEach(listener -> listener.onEvent(event));
+
+        if (directSubscriptions.containsKey(event.getClass())) {
+            Class<? extends Event> clazz = event.getClass();
+            Set<Action<? super Event>> actions = directSubscriptions.get(clazz);
+            actions.forEach(action -> action.accept(event));
+        }
+        return this;
     }
 
     @Override
