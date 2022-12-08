@@ -5,6 +5,7 @@ import gg.acai.acava.scheduler.AsyncPlaceholder;
 import gg.acai.acava.scheduler.Schedulers;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -109,18 +110,18 @@ public class Request<T> implements HttpRequest<T> {
             connection.setRequestProperty("User-Agent", this.userAgent);
             this.headers.forEach(connection::setRequestProperty);
             connection.setDoOutput(true);
-            connection.getOutputStream().write(body.getBytes());
             connection.connect();
+            try (OutputStream out = connection.getOutputStream()) {
+                out.write(body.getBytes());
+            }
+
+            if (connection.getResponseCode() >= 400) {
+                throw new IOException(connection.getResponseMessage() + " (" + connection.getResponseCode() + ")");
+            }
+
+            connection.disconnect();
         } catch (IOException e) {
-            assert connection != null;
-            throw new RuntimeException(
-                    "An error occurred while executing the request to " + this.url + "\n"
-                        + connection.getErrorStream().toString()
-                        + "\nResponse Code:"
-                        + connection.getResponseCode()
-                        + "\nResponse Message:"
-                        + e.printStackTrace()
-            );
+            e.printStackTrace();
         }
 
         return new Response<>(connection);
