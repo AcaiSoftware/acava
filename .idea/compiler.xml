@@ -9,8 +9,12 @@
         <module name="acava-mongo" />
         <module name="acava-discord" />
         <module name="acava-postgresql" />
+        <module name="acava-http" />
         <module name="acava-common" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="acava-graphql" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
