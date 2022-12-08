@@ -119,9 +119,11 @@ public class Request<T> implements HttpRequest<T> {
             if (connection.getResponseCode() >= 400) {
                 System.out.println("Error: " + connection.getResponseCode() + " " + connection.getResponseMessage());
                 InputStream is = connection.getErrorStream();
+                StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < is.available(); i++) {
-                    System.out.println((char) is.read());
+                    builder.append((char) is.read());
                 }
+                System.out.println(builder.toString());
             }
 
             connection.disconnect();
