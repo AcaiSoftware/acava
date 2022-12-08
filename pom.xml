@@ -13,6 +13,7 @@
         <module>acava-mongo</module>
         <module>acava-discord</module>
         <module>acava-postgresql</module>
+        <module>acava-http</module>
     </modules>
 
     <properties>
