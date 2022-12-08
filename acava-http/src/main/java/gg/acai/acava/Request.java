@@ -116,7 +116,7 @@ public class Request<T> implements HttpRequest<T> {
             }
 
             if (connection.getResponseCode() >= 400) {
-                throw new IOException(connection.getResponseMessage() + " (" + connection.getResponseCode() + ")");
+                System.out.println("Error: " + connection.getResponseCode() + " " + connection.getResponseMessage());
             }
 
             connection.disconnect();
