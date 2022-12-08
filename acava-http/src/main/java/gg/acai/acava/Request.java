@@ -98,7 +98,7 @@ public class Request<T> implements HttpRequest<T> {
 
         System.out.println(cookie);
 
-        HttpURLConnection connection;
+        HttpURLConnection connection = null;
         try {
             URL url = new URL(this.url + parameter);
             connection = (HttpURLConnection) url.openConnection();
@@ -112,7 +112,15 @@ public class Request<T> implements HttpRequest<T> {
             connection.getOutputStream().write(body.getBytes());
             connection.connect();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            assert connection != null;
+            throw new RuntimeException(
+                    "An error occurred while executing the request to " + this.url + "\n"
+                        + connection.getErrorStream().toString()
+                        + "\nResponse Code:"
+                        + connection.getResponseCode()
+                        + "\nResponse Message:"
+                        + e.printStackTrace()
+            );
         }
 
         return new Response<>(connection);
