@@ -5,6 +5,7 @@ import gg.acai.acava.scheduler.AsyncPlaceholder;
 import gg.acai.acava.scheduler.Schedulers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
@@ -117,7 +118,10 @@ public class Request<T> implements HttpRequest<T> {
 
             if (connection.getResponseCode() >= 400) {
                 System.out.println("Error: " + connection.getResponseCode() + " " + connection.getResponseMessage());
-                System.out.println("Stream: " + connection.getErrorStream().toString());
+                InputStream is = connection.getErrorStream();
+                for (int i = 0; i < is.available(); i++) {
+                    System.out.println((char) is.read());
+                }
             }
 
             connection.disconnect();
