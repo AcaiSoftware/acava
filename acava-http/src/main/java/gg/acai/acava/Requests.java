@@ -7,7 +7,7 @@ package gg.acai.acava;
  */
 public final class Requests {
 
-    public static <T> HttpRequest<T> post(String url, RestMethod method) {
+     public static <T> HttpRequest<T> newRequest(String url, RestMethod method) {
         return new Request<>(url, method);
     }
 
