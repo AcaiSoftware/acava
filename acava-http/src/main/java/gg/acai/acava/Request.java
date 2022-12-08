@@ -91,10 +91,12 @@ public class Request<T> implements HttpRequest<T> {
 
     @Override
     public HttpResponse<T> execute() {
-        String header = GSON.toJson(headers);
-        String cookie = GSON.toJson(cookies);
+        String header = this.headers.toString();
+        String cookie = this.cookies.toString();
         String body = GSON.toJson(this.body);
         String parameter = buildParameters();
+
+        System.out.println(header);
 
         HttpURLConnection connection;
         try {
