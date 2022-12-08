@@ -96,7 +96,7 @@ public class Request<T> implements HttpRequest<T> {
         String body = GSON.toJson(this.body);
         String parameter = buildParameters();
 
-        System.out.println(header);
+        System.out.println(cookie);
 
         HttpURLConnection connection;
         try {
@@ -106,8 +106,8 @@ public class Request<T> implements HttpRequest<T> {
             connection.setRequestProperty("Content-Type", this.contentType);
             connection.setRequestProperty("Accept", this.accept);
             connection.setRequestProperty("Cookie", cookie);
-            connection.setRequestProperty("Header", header);
             connection.setRequestProperty("User-Agent", this.userAgent);
+            this.headers.forEach(connection::setRequestProperty);
             connection.setDoOutput(true);
             connection.getOutputStream().write(body.getBytes());
             connection.connect();
