@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Implementation of {@link HttpRequest<T>}.
+ *
  * @author Clouke
  * @since 08.12.2022 23:22
  * © Acava - All Rights Reserved

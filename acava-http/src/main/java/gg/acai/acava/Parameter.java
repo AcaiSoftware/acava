@@ -13,6 +13,11 @@ public class Parameter {
 
     private Map<String, String> parameters;
 
+    /**
+     * Delegates a map to this parameter.
+     *
+     * @param parameters The map to delegate.
+     */
     public Parameter delegate(Map<String, String> parameters) {
         Objects.requireNonNull(parameters, "parameters cannot be null");
         if (this.parameters == null) {
@@ -23,6 +28,12 @@ public class Parameter {
         return this;
     }
 
+    /**
+     * Adds a parameter to the parameter.
+     *
+     * @param key The key of the parameter.
+     * @param value The value of the parameter.
+     */
     public Parameter add(String key, String value) {
         if (this.parameters == null) {
             this.parameters = new HashMap<>();
@@ -31,6 +42,9 @@ public class Parameter {
         return this;
     }
 
+    /**
+     * @return Returns the formatted parameters as a string.
+     */
     @Override
     public String toString() {
         if (parameters == null || parameters.isEmpty()) return "";
