@@ -17,6 +17,22 @@ public class Response<T> implements HttpResponse<T> {
 
     public Response(HttpURLConnection connection) {
         this.connection = connection;
+        System.out.println("Response: " + connection.toString());
+        System.out.println("Headers: " + connection.getHeaderFields().toString());
+        System.out.println("Cookies: " + connection.getHeaderFields().get("Set-Cookie"));
+        System.out.println("Body: " + getBody());
+        try {
+            System.out.println("Status Code: " + connection.getResponseCode());
+        } catch (IOException e) {
+            System.out.println("Could not get response code: " + e.getMessage());
+        }
+        try {
+            System.out.println("Status Message: " + connection.getResponseMessage());
+        } catch (IOException e) {
+            System.out.println("Could not get response message: " + e.getMessage());
+        }
+        System.out.println("Content Type: " + connection.getContentType());
+        System.out.println("Accept: " + connection.getRequestProperty("Accept"));
     }
 
     @Override
