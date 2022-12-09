@@ -101,8 +101,6 @@ public class Request<T> implements HttpRequest<T> {
         String cookie = this.cookies.toString();
         String body = GSON.toJson(this.body);
 
-        System.out.println(cookie);
-
         InputStream inputStream = null;
         HttpURLConnection connection = null;
         try {
@@ -119,7 +117,6 @@ public class Request<T> implements HttpRequest<T> {
 
             System.out.println(inBody);
 
-            /*
             switch (method) {
                 case POST:
                 case PUT: {
@@ -130,7 +127,6 @@ public class Request<T> implements HttpRequest<T> {
                     break;
                 }
             }
-             */
 
             if (connection.getResponseCode() >= 400) {
                 System.out.println("Error: " + connection.getResponseCode() + " " + connection.getResponseMessage());
