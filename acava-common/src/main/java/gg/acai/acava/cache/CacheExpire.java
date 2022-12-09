@@ -1,5 +1,6 @@
 package gg.acai.acava.cache;
 
+import gg.acai.acava.scheduler.Scheduler;
 import gg.acai.acava.scheduler.SchedulerTask;
 
 import java.util.Collection;
@@ -25,6 +26,10 @@ public class CacheExpire<K, V> implements CacheDuplex<K, V> {
         this.scheduler = task;
         this.unit = unit;
         this.duration = duration;
+    }
+
+    public CacheExpire(Scheduler scheduler, TimeUnit unit, long duration) {
+        this(new HashMap<>(), scheduler.createTask(), unit, duration);
     }
 
     public CacheExpire(SchedulerTask task, TimeUnit unit, long duration) {
