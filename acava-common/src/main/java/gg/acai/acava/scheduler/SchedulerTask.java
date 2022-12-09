@@ -1,5 +1,6 @@
 package gg.acai.acava.scheduler;
 
+import gg.acai.acava.event.Cancellable;
 import gg.acai.acava.io.Closeable;
 
 import java.util.concurrent.TimeUnit;
@@ -9,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * @since 03.12.2022 12:17
  * © Acava - All Rights Reserved
  */
-public interface SchedulerTask extends Closeable {
+public interface SchedulerTask extends Closeable, Cancellable {
 
     /**
      * Schedules a task to be executed after the given delay.
