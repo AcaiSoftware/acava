@@ -2,9 +2,11 @@ package gg.acai.acava.cache;
 
 import gg.acai.acava.scheduler.SchedulerTask;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 /**
  * @author Clouke
@@ -67,6 +69,32 @@ public class CacheExpire<K, V> implements CacheDuplex<K, V> {
     @Override
     public void invalidate() {
         this.cache.clear();
+    }
+
+    @Override
+    public void invalidateNulls() {
+        this.cache.entrySet().removeIf(entry -> entry.getValue() == null);
+    }
+
+    @Override
+    public Stream<V> stream() {
+        return this.cache.values().stream();
+    }
+
+    @Override
+    public Collection<V> values() {
+        return this.cache.values();
+    }
+
+    @Override
+    public CacheDuplex<K, V> delegate(CacheDuplex<K, V> other) {
+        this.cache.forEach(other::set);
+        return other;
+    }
+
+    @Override
+    public Map<K, V> asMap() {
+        return this.cache;
     }
 
     @Override

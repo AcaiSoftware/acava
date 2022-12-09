@@ -2,6 +2,10 @@ package gg.acai.acava.cache;
 
 import gg.acai.acava.io.Closeable;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.stream.Stream;
+
 /**
  * @author Clouke
  * @since 03.12.2022 19:45
@@ -46,6 +50,34 @@ public interface CacheDuplex<K, V> extends Closeable {
      * Clears the cache.
      */
     void invalidate();
+
+    /**
+     * Invalidates all values that are null.
+     */
+    void invalidateNulls();
+
+    /**
+     * @return Returns a stream of all the keys.
+     */
+    Stream<V> stream();
+
+    /**
+     * @return Returns a collection of all the values.
+     */
+    Collection<V> values();
+
+    /**
+     * Delegates the cache to another cache.
+     *
+     * @param other The other cache to delegate to.
+     * @return Returns the other cache.
+     */
+    CacheDuplex<K, V> delegate(CacheDuplex<K, V> other);
+
+    /**
+     * @return Returns the cache as a map.
+     */
+    Map<K, V> asMap();
 
     @Override
     default void close() {
