@@ -32,4 +32,8 @@ public final class Schedulers {
         return scheduler.supply(() -> new AsyncPlaceholderDef<>(supplier, scheduler));
     }
 
+    public static <T> AsyncPlaceholder<T> supplyAsync(Supplier<T> supplier, Scheduler scheduler) {
+        return scheduler.supply(() -> new AsyncPlaceholderDef<>(supplier, scheduler));
+    }
+
 }
