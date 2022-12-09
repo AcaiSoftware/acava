@@ -61,7 +61,11 @@ public class Response<T> implements HttpResponse<T> {
     @Override
     public String getBody() {
         try (Scanner scanner = new Scanner(connection.getInputStream())) {
-            return scanner.useDelimiter("\\A").next();
+            StringBuilder builder = new StringBuilder();
+            while (scanner.hasNextLine()) {
+                builder.append(scanner.nextLine());
+            }
+            return builder.toString();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
