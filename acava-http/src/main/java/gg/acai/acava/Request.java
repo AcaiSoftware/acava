@@ -101,8 +101,7 @@ public class Request<T> implements HttpRequest<T> {
         String cookie = this.cookies.toString();
         String body = GSON.toJson(this.body);
 
-        InputStream inputStream = null;
-        HttpURLConnection connection = null;
+        HttpURLConnection connection;
         try {
             URL url = new URL(this.url + this.parameter);
             connection = (HttpURLConnection) url.openConnection();
@@ -111,11 +110,6 @@ public class Request<T> implements HttpRequest<T> {
             headers.forEach(connection::setRequestProperty);
             connection.setRequestProperty("Cookie", cookie);
             connection.connect();
-
-            inputStream = connection.getInputStream();
-            String inBody = readFromInputStream(inputStream);
-
-            System.out.println(inBody);
 
             switch (method) {
                 case POST:
@@ -141,14 +135,6 @@ public class Request<T> implements HttpRequest<T> {
             //connection.disconnect();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         return new Response<>(connection);
@@ -157,15 +143,6 @@ public class Request<T> implements HttpRequest<T> {
     @Override
     public AsyncPlaceholder<HttpResponse<T>> executeAsync() {
         return Schedulers.supplyAsync(this::execute);
-    }
-
-    private static String readFromInputStream(InputStream inputStream) throws IOException {
-        StringBuilder resultStringBuilder = new StringBuilder();
-        int c;
-        while ((c = inputStream.read()) != -1) {
-            resultStringBuilder.append((char) c);
-        }
-        return resultStringBuilder.toString();
     }
 
 }
