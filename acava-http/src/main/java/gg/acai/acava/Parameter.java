@@ -33,7 +33,7 @@ public class Parameter {
 
     @Override
     public String toString() {
-        if (parameters.isEmpty()) return "";
+        if (parameters == null || parameters.isEmpty()) return "";
         StringBuilder builder = new StringBuilder()
                 .append('?');
 
