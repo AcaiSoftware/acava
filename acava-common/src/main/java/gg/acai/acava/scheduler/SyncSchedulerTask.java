@@ -16,6 +16,7 @@ public class SyncSchedulerTask implements SchedulerTask {
     private long delay;
     private Context context;
     private Runnable action;
+    private boolean cancelled;
 
     public SyncSchedulerTask(Timer timer) {
         this.timer = timer;
@@ -71,8 +72,14 @@ public class SyncSchedulerTask implements SchedulerTask {
     }
 
     @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
     public void cancel() {
         timer.cancel();
+        cancelled = true;
     }
 
     @Override

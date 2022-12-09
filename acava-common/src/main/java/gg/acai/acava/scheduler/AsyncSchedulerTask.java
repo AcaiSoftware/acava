@@ -65,6 +65,11 @@ public class AsyncSchedulerTask implements SchedulerTask {
     }
 
     @Override
+    public boolean isCancelled() {
+        return executorService.isShutdown();
+    }
+
+    @Override
     public void cancel() {
         executorService.shutdown();
     }
