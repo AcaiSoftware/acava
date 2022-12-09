@@ -113,11 +113,15 @@ public class Request<T> implements HttpRequest<T> {
             connection.setRequestProperty("Cookie", cookie);
             connection.connect();
 
-            if (method == RestMethod.POST || method == RestMethod.PUT) {
-                try (OutputStream out = connection.getOutputStream()) {
-                    out.write(body.getBytes());
+            switch (method) {
+                case POST:
+                case PUT: {
+                    try (OutputStream out = connection.getOutputStream()) {
+                        out.write(body.getBytes());
+                    }
+                    connection.setDoOutput(true);
+                    break;
                 }
-                connection.setDoOutput(true);
             }
 
             if (connection.getResponseCode() >= 400) {
