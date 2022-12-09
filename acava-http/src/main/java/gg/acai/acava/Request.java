@@ -30,6 +30,7 @@ public class Request<T> implements HttpRequest<T> {
     private final Map<String, String> cookies;
     private final Parameter parameter;
     private final List<String> body;
+    private String userAgent = "Acava/1.0";
 
     public Request(String url, RestMethod method) {
         this.url = url;
@@ -78,7 +79,7 @@ public class Request<T> implements HttpRequest<T> {
 
     @Override
     public HttpRequest<T> userAgent(String userAgent) {
-        this.headers.put("User-Agent", userAgent);
+        this.userAgent = userAgent;
         return this;
     }
 
@@ -107,6 +108,7 @@ public class Request<T> implements HttpRequest<T> {
             URL url = new URL(this.url + this.parameter);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method.name());
+            connection.setRequestProperty("User-Agent", this.userAgent);
             headers.forEach(connection::setRequestProperty);
             connection.setRequestProperty("Cookie", cookie);
             connection.connect();
