@@ -1,9 +1,11 @@
 package gg.acai.acava;
 
+import gg.acai.acava.codec.Encoder;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -12,6 +14,20 @@ import java.util.stream.Collectors;
  * © Acava - All Rights Reserved
  */
 public class Response<T> implements HttpResponse<T> {
+
+    private static final Encoder<String, InputStream> ENCODER = payload -> {
+        StringBuilder builder = new StringBuilder();
+        int c;
+        while (true) {
+            try {
+                if ((c = payload.read()) == -1) break;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            builder.append((char) c);
+        }
+        return builder.toString();
+    };
 
     private final HttpURLConnection connection;
 
@@ -60,18 +76,26 @@ public class Response<T> implements HttpResponse<T> {
 
     @Override
     public String getBody() {
-        try (Scanner scanner = new Scanner(connection.getInputStream())) {
-            StringBuilder builder = new StringBuilder();
-            while (scanner.hasNextLine()) {
-                builder.append(scanner.nextLine());
-            }
-            return builder.toString();
+        InputStream inputStream = null;
+        String result;
+        try {
+            inputStream = connection.getInputStream();
+            result = ENCODER.encode(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            inputStream = connection.getErrorStream();
+            result = ENCODER.encode(inputStream);
         } finally {
             connection.disconnect();
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return null;
+
+        return result;
     }
 
     @Override
