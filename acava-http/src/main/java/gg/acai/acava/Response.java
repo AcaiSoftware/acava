@@ -32,12 +32,29 @@ public class Response<T> implements HttpResponse<T> {
 
     @Override
     public List<String> getCookies() {
-        return connection.getHeaderFields().get("Set-Cookie");
+        try {
+            return connection.getHeaderFields().get("Set-Cookie");
+        } catch (NullPointerException e) {
+            return null;
+        } finally {
+            connection.disconnect();
+        }
     }
 
     @Override
     public String getCookie(String key) {
-        return connection.getHeaderField(key);
+        try {
+            try {
+                return connection.getHeaderFields().get("Set-Cookie").stream()
+                        .filter(cookie -> cookie.contains(key))
+                        .map(cookie -> cookie.split("=")[1])
+                        .collect(Collectors.joining());
+            } catch (NullPointerException e) {
+                return null;
+            }
+        } finally {
+            connection.disconnect();
+        }
     }
 
     @Override
@@ -48,8 +65,7 @@ public class Response<T> implements HttpResponse<T> {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
-        finally {
+        } finally {
             connection.disconnect();
         }
     }
@@ -60,6 +76,8 @@ public class Response<T> implements HttpResponse<T> {
             return connection.getResponseCode();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
     }
 
@@ -69,16 +87,26 @@ public class Response<T> implements HttpResponse<T> {
             return connection.getResponseMessage();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
     }
 
     @Override
     public String getContentType() {
-        return connection.getContentType();
+        try {
+            return connection.getContentType();
+        } finally {
+            connection.disconnect();
+        }
     }
 
     @Override
     public String getAccept() {
-        return connection.getRequestProperty("Accept");
+        try {
+            return connection.getRequestProperty("Accept");
+        } finally {
+            connection.disconnect();
+        }
     }
 }
