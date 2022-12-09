@@ -112,7 +112,6 @@ public class Request<T> implements HttpRequest<T> {
             headers.forEach(connection::setRequestProperty);
             connection.setRequestProperty("Cookie", cookie);
             connection.setDoOutput(false);
-            connection.connect();
 
             switch (method) {
                 case POST:
@@ -124,6 +123,8 @@ public class Request<T> implements HttpRequest<T> {
                     break;
                 }
             }
+
+            connection.connect();
 
             if (connection.getResponseCode() >= 400) {
                 System.out.println("Error: " + connection.getResponseCode() + " " + connection.getResponseMessage());
