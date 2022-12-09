@@ -3,6 +3,7 @@ package gg.acai.acava;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -59,15 +60,14 @@ public class Response<T> implements HttpResponse<T> {
 
     @Override
     public String getBody() {
-        try {
-            try {
-                return connection.getInputStream().toString();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        try (Scanner scanner = new Scanner(connection.getInputStream())) {
+            return scanner.useDelimiter("\\A").next();
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             connection.disconnect();
         }
+        return null;
     }
 
     @Override
