@@ -28,18 +28,15 @@ public class Request<T> implements HttpRequest<T> {
     private final RestMethod method;
     private final Map<String, String> headers;
     private final Map<String, String> cookies;
-    private final Map<String, String> queryParameters;
+    private final Parameter parameter;
     private final List<String> body;
-    private String contentType = "application/json";
-    private String accept = "*/*";
-    private String userAgent = "Acava/1.0";
 
     public Request(String url, RestMethod method) {
         this.url = url;
         this.method = method;
         this.headers = new HashMap<>();
         this.cookies = new HashMap<>();
-        this.queryParameters = new HashMap<>();
+        this.parameter = new Parameter();
         this.body = new ArrayList<>();
     }
 
@@ -69,25 +66,31 @@ public class Request<T> implements HttpRequest<T> {
 
     @Override
     public HttpRequest<T> contentType(String contentType) {
-        this.contentType = contentType;
+        this.headers.put("Content-Type", contentType);
         return this;
     }
 
     @Override
     public HttpRequest<T> accept(String accept) {
-        this.accept = accept;
+        this.headers.put("Accept", accept);
         return this;
     }
 
     @Override
     public HttpRequest<T> userAgent(String userAgent) {
-        this.userAgent = userAgent;
+        this.headers.put("User-Agent", userAgent);
         return this;
     }
 
     @Override
     public HttpRequest<T> queryParameter(String key, String value) {
-        this.queryParameters.put(key, value);
+        this.parameter.add(key, value);
+        return this;
+    }
+
+    @Override
+    public HttpRequest<T> queryParameter(Map<String, String> parameters) {
+        this.parameter.delegate(parameters);
         return this;
     }
 
@@ -96,22 +99,19 @@ public class Request<T> implements HttpRequest<T> {
         String header = this.headers.toString();
         String cookie = this.cookies.toString();
         String body = GSON.toJson(this.body);
-        String parameter = buildParameters();
 
         System.out.println(cookie);
 
         HttpURLConnection connection = null;
         try {
-            URL url = new URL(this.url + parameter);
+            URL url = new URL(this.url + this.parameter);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method.name());
-            connection.setRequestProperty("Content-Type", this.contentType);
-            connection.setRequestProperty("Accept", this.accept);
+            headers.forEach(connection::setRequestProperty);
             connection.setRequestProperty("Cookie", cookie);
-            connection.setRequestProperty("User-Agent", this.userAgent);
-            this.headers.forEach(connection::setRequestProperty);
             connection.setDoOutput(true);
             connection.connect();
+
             try (OutputStream out = connection.getOutputStream()) {
                 out.write(body.getBytes());
             }
@@ -123,7 +123,7 @@ public class Request<T> implements HttpRequest<T> {
                 for (int i = 0; i < is.available(); i++) {
                     builder.append((char) is.read());
                 }
-                System.out.println(builder.toString());
+                System.out.println(builder);
             }
 
             connection.disconnect();
@@ -137,24 +137,6 @@ public class Request<T> implements HttpRequest<T> {
     @Override
     public AsyncPlaceholder<HttpResponse<T>> executeAsync() {
         return Schedulers.supplyAsync(this::execute);
-    }
-
-    private String buildParameters() {
-        if (queryParameters.isEmpty()) {
-            return "";
-        }
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("?");
-
-        for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
-            builder.append(entry.getKey())
-                    .append("=")
-                    .append(entry.getValue())
-                    .append("&");
-        }
-
-        return builder.toString();
     }
 
 }
