@@ -111,6 +111,7 @@ public class Request<T> implements HttpRequest<T> {
             connection.setRequestProperty("User-Agent", this.userAgent);
             headers.forEach(connection::setRequestProperty);
             connection.setRequestProperty("Cookie", cookie);
+            connection.setDoOutput(false);
             connection.connect();
 
             switch (method) {
