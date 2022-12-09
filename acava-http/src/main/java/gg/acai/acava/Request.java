@@ -111,7 +111,7 @@ public class Request<T> implements HttpRequest<T> {
             connection.setRequestProperty("User-Agent", this.userAgent);
             headers.forEach(connection::setRequestProperty);
             connection.setRequestProperty("Cookie", cookie);
-            connection.setDoOutput(false);
+            //connection.setDoOutput(false);
 
             switch (method) {
                 case POST:
@@ -119,7 +119,7 @@ public class Request<T> implements HttpRequest<T> {
                     try (OutputStream out = connection.getOutputStream()) {
                         out.write(body.getBytes());
                     }
-                    connection.setDoOutput(true);
+                    //connection.setDoOutput(true);
                     break;
                 }
             }
