@@ -3,6 +3,7 @@ package gg.acai.acava;
 import gg.acai.acava.scheduler.AsyncPlaceholder;
 
 import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * @author Clouke
@@ -26,6 +27,8 @@ public interface HttpRequest<T> {
     HttpRequest<T> userAgent(String userAgent);
 
     HttpRequest<T> queryParameter(String key, String value);
+
+    HttpRequest<T> queryParameter(Map<String, String> parameters);
 
     HttpResponse<T> execute();
 
