@@ -1,6 +1,6 @@
 # Acava: Java Library for Acai
 
-## Add Acai to your own build
+## Add Acava to your own build
 ### Maven
 ```xml
 <repository>
