@@ -12,6 +12,7 @@ import java.util.Map;
 public class StandardLogger implements Logger {
 
     private static final Map<Color, String> COLORS = new HashMap<>();
+    private static final String RESET = gg.acai.acava.io.logging.Color.RESET;
 
     static {
         COLORS.put(Color.BLACK, gg.acai.acava.io.logging.Color.BLACK);
@@ -38,6 +39,6 @@ public class StandardLogger implements Logger {
 
     @Override
     public void log(Color color, String... messages) {
-        System.out.println(COLORS.getOrDefault(color, "") + prefix + " " + String.join(" ", messages));
+        System.out.println(COLORS.getOrDefault(color, "") + prefix + " " + String.join(" ", messages) + RESET);
     }
 }
