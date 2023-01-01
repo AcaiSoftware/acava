@@ -32,6 +32,7 @@ public class Request<T> implements HttpRequest<T> {
     private final Map<String, String> cookies;
     private final Parameter parameter;
     private final List<String> body;
+    private String pathParameter;
     private String userAgent = "Acava/1.0";
 
     public Request(String url, RestMethod method) {
@@ -80,6 +81,12 @@ public class Request<T> implements HttpRequest<T> {
     }
 
     @Override
+    public HttpRequest<T> pathParameter(String pathParameter) {
+        this.pathParameter = pathParameter;
+        return this;
+    }
+
+    @Override
     public HttpRequest<T> userAgent(String userAgent) {
         this.userAgent = userAgent;
         return this;
@@ -102,10 +109,11 @@ public class Request<T> implements HttpRequest<T> {
         String header = this.headers.toString();
         String cookie = this.cookies.toString();
         String body = GSON.toJson(this.body);
+        String p = pathParameter == null ? "" : pathParameter;
 
         HttpURLConnection connection;
         try {
-            URL url = new URL(this.url + this.parameter);
+            URL url = new URL(this.url + p + this.parameter);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method.name());
             connection.setRequestProperty("User-Agent", this.userAgent);

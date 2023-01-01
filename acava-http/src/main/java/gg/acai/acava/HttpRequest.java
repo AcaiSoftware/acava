@@ -58,6 +58,13 @@ public interface HttpRequest<T> {
     HttpRequest<T> accept(String accept);
 
     /**
+     * Applies the path parameter to the request.
+     *
+     * @param pathParameter The path parameter of the request.
+     */
+    HttpRequest<T> pathParameter(String pathParameter);
+
+    /**
      * Applies the user agent to the request.
      *
      * @param userAgent The user agent of the request.
