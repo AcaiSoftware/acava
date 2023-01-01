@@ -13,4 +13,8 @@ public interface Logger {
 
     void log(Color color, String... messages);
 
+    void logMultiLine(String... messages);
+
+    void logMultiLine(Color color, String... messages);
+
 }

@@ -41,4 +41,18 @@ public class StandardLogger implements Logger {
     public void log(Color color, String... messages) {
         System.out.println(COLORS.getOrDefault(color, "") + prefix + " " + String.join(" ", messages) + RESET);
     }
+
+    @Override
+    public void logMultiLine(String... messages) {
+        for (String message : messages) {
+            log(message);
+        }
+    }
+
+    @Override
+    public void logMultiLine(Color color, String... messages) {
+        for (String message : messages) {
+            log(color, message);
+        }
+    }
 }
