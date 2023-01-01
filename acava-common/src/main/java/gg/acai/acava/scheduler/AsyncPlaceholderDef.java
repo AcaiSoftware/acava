@@ -2,6 +2,7 @@ package gg.acai.acava.scheduler;
 
 import gg.acai.acava.io.Callback;
 
+import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
 
 /**
@@ -34,4 +35,26 @@ public class AsyncPlaceholderDef<T> implements AsyncPlaceholder<T> {
     public T get() {
         return scheduler.supply(() -> value);
     }
+
+    @Override
+    public T join() throws TimeoutException {
+        int spins = 0;
+        int checks = 0;
+        T value;
+        while (true) {
+            if (spins > 100) {
+                spins = 0;
+                Thread.yield();
+                checks++;
+            }
+            value = get();
+            if (value != null) break;
+            if (checks > 100) throw new TimeoutException("The placeholder timed out");
+
+            spins++;
+        }
+
+        return value;
+    }
+
 }
