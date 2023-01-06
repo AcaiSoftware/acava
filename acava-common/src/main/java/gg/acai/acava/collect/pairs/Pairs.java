@@ -23,6 +23,20 @@ public interface Pairs<L, R> {
      */
     R right();
 
+    /**
+     * Sets the left value of the pair.
+     *
+     * @param left The left value to set.
+     */
+    void setLeft(L left);
+
+    /**
+     * Sets the right value of the pair.
+     *
+     * @param right The right value to set.
+     */
+    void setRight(R right);
+
     default <T> T mapLeft(Function<? super L, ? extends T> leftMapper) {
         return leftMapper.apply(left());
     }

@@ -24,4 +24,14 @@ public final class ImmutablePairs<L, R> implements Pairs<L, R> {
     public R right() {
         return this.right;
     }
+
+    @Override
+    public void setLeft(L left) {
+        throw new UnsupportedOperationException("Cannot set left value of immutable pair.");
+    }
+
+    @Override
+    public void setRight(R right) {
+        throw new UnsupportedOperationException("Cannot set right value of immutable pair.");
+    }
 }
