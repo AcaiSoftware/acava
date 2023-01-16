@@ -88,7 +88,7 @@ public final class MongoServer implements MongoComponent {
 
     @Override
     public MongoCollection<Document> getCollection(String collection) {
-        return this.collections.get(collection);
+        return mongoDatabase.getCollection(collection);
     }
 
     @Override
