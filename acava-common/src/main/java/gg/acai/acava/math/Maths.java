@@ -1,5 +1,6 @@
 package gg.acai.acava.math;
 
+import java.util.Collection;
 import java.util.stream.Stream;
 
 /**
@@ -8,6 +9,10 @@ import java.util.stream.Stream;
  * © Acava - All Rights Reserved
  */
 public class Maths {
+
+    public static DoubleMath doubleMath(Collection<? extends Number> collection) {
+        return doubleMath(collection.stream());
+    }
 
     public static DoubleMath doubleMath(Stream<? extends Number> stream) {
         return new DoubleMathStream(stream);
