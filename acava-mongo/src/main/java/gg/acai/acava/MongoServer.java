@@ -40,6 +40,7 @@ public final class MongoServer implements MongoComponent {
     private final String authDatabase;
     private final boolean cacheCollections;
     private final Map<String, MongoCollection<Document>> collections;
+    private final WrappedMongoCredentials wrapper;
 
     private MongoClient client;
     private MongoDatabase mongoDatabase;
@@ -55,6 +56,7 @@ public final class MongoServer implements MongoComponent {
         this.authDatabase = authDatabase;
         this.cacheCollections = cacheCollections;
         this.collections = new HashMap<>();
+        this.wrapper = new WrappedMongoCredentials(host, port, database, auth, user, applicationName, password, authDatabase, cacheCollections);
     }
 
     @Override
@@ -104,6 +106,11 @@ public final class MongoServer implements MongoComponent {
 
             return result;
         });
+    }
+
+    @Override
+    public WrappedMongoCredentials wrapCredentials() {
+        return wrapper;
     }
 
     @Override
