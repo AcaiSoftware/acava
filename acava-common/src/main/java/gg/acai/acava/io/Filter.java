@@ -1,5 +1,6 @@
 package gg.acai.acava.io;
 
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -10,5 +11,7 @@ import java.util.function.Predicate;
 public interface Filter<T> extends Predicate<T> {
 
     void add(T t);
+
+    Set<T> getSeen();
 
 }

@@ -22,6 +22,11 @@ public class FilterUnique<T> implements Filter<T> {
     }
 
     @Override
+    public Set<T> getSeen() {
+        return seen;
+    }
+
+    @Override
     public boolean test(T t) {
         return this.seen.contains(t);
     }
