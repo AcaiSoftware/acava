@@ -61,4 +61,8 @@ public class WrappedMongoCredentials {
         return cacheCollections;
     }
 
+    public boolean auth() {
+        return auth;
+    }
+
 }
