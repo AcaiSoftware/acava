@@ -5,6 +5,7 @@ package gg.acai.acava.function;
  * @since 08.02.2023 16:18
  * © Acava - All Rights Reserved
  */
+@FunctionalInterface
 public interface Fold<E, R> {
 
     /**
