@@ -9,14 +9,8 @@ public interface TimingsStatistics<T> {
 
     double getAverage();
 
-    double getMedian();
+    double getAverage(long skip);
 
-    double getMode();
-
-    double getStandardDeviation();
-
-    double getVariance();
-
-    double getMinimum();
+    double getAverageSeconds();
 
 }
