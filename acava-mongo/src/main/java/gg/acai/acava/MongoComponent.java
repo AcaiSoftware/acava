@@ -72,5 +72,12 @@ public interface MongoComponent extends Closeable {
      */
     <T> CompletableFuture<T> search(String collection, String key, Class<T> rawType);
 
+    /**
+     * Gets a wrapper for the mongo credentials.
+     *
+     * @return Returns a wrapper for the mongo credentials.
+     */
+    WrappedMongoCredentials wrapCredentials();
+
 
 }
