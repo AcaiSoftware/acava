@@ -1,10 +1,10 @@
 package gg.acai.acava.io.config;
 
 import gg.acai.acava.function.Action;
+import gg.acai.acava.scheduler.AsyncPlaceholder;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 /**
@@ -26,7 +26,7 @@ public interface JsonConfiguration<T> {
      * @param key The key to get the value of.
      * @return The value of the given key.
      */
-    CompletableFuture<T> getAsync(String key);
+    AsyncPlaceholder<T> getAsync(String key);
 
     /**
      * Gets the value of the given key as an optional.
