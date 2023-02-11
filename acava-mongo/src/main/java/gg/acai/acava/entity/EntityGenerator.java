@@ -1,20 +1,21 @@
 package gg.acai.acava.entity;
 
 import com.mongodb.client.MongoCollection;
+import gg.acai.acava.scheduler.AsyncPlaceholder;
+import gg.acai.acava.scheduler.Schedulers;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
+ * EntityGenerator - A class that generates entities from a collection.
+ *
  * @author Clouke
  * @since 02.12.2022 21:14
  * © Acava - All Rights Reserved
- *
- * EntityGenerator - A class that generates entities from a collection.
  */
 public class EntityGenerator implements Entity {
 
@@ -45,13 +46,13 @@ public class EntityGenerator implements Entity {
     }
 
     @Override
-    public <V, T> CompletableFuture<V> getValueAsync(String key, Class<T> rawType) {
-        return CompletableFuture.supplyAsync(() -> getValue(key, rawType));
+    public <V, T> AsyncPlaceholder<V> getValueAsync(String key, Class<T> rawType) {
+        return Schedulers.supplyAsync(() -> getValue(key, rawType));
     }
 
     @Override
-    public <V, T> CompletableFuture<V> getValueAsync(String key, Class<T> rawType, V defaultValue) {
-        return CompletableFuture.supplyAsync(() -> getValue(key, rawType, defaultValue));
+    public <V, T> AsyncPlaceholder<V> getValueAsync(String key, Class<T> rawType, V defaultValue) {
+        return Schedulers.supplyAsync(() -> getValue(key, rawType, defaultValue));
     }
 
     @Override
