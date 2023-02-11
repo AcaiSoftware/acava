@@ -1,21 +1,23 @@
 package gg.acai.acava.collect.pairs;
 
 /**
+ * Mutable implementation of {@link Pairs}.
+ *
  * @author Clouke
  * @since 02.12.2022 18:15
  * © Acava - All Rights Reserved
  */
-public class MutablePairs<L, R> implements Pairs<L, R> {
+public class MutablePair<L, R> implements Pairs<L, R> {
 
     private L left;
     private R right;
 
-    public MutablePairs(L left, R right) {
+    public MutablePair(L left, R right) {
         this.left = left;
         this.right = right;
     }
 
-    public MutablePairs() {}
+    public MutablePair() {}
 
     @Override
     public L left() {
