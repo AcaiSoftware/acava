@@ -1,6 +1,6 @@
 package gg.acai.acava.cache;
 
-import gg.acai.acava.collect.maps.EvictingMap;
+import gg.acai.acava.collect.maps.FixedSizeHashMap;
 
 import java.util.Collection;
 import java.util.Map;
@@ -16,7 +16,7 @@ public class CacheEvicting<K, V> implements CacheDuplex<K, V> {
     private final Map<K, V> cache;
 
     public CacheEvicting(int maxSize) {
-        this.cache = new EvictingMap<>(maxSize);
+        this.cache = new FixedSizeHashMap<>(maxSize);
     }
 
     @Override
