@@ -1,9 +1,9 @@
 package gg.acai.acava.entity;
 
 import gg.acai.acava.annotated.Use;
+import gg.acai.acava.scheduler.AsyncPlaceholder;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Clouke
@@ -38,7 +38,7 @@ public interface Entity {
      * @param rawType The raw type of the value.
      * @return The value of the given key.
      */
-    <V, T> CompletableFuture<V> getValueAsync(String key, Class<T> rawType);
+    <V, T> AsyncPlaceholder<V> getValueAsync(String key, Class<T> rawType);
 
     /**
      * Gets the entity type asynchronously, with a default value.
@@ -48,7 +48,7 @@ public interface Entity {
      * @param defaultValue The default value to return if the key doesn't exist.
      * @return The value of the given key.
      */
-    <V, T> CompletableFuture<V> getValueAsync(String key, Class<T> rawType, V defaultValue);
+    <V, T> AsyncPlaceholder<V> getValueAsync(String key, Class<T> rawType, V defaultValue);
 
     /**
      * Checks if the entity contains the given key.
