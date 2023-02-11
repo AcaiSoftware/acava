@@ -1,10 +1,11 @@
 package gg.acai.acava.io.config;
 
 import gg.acai.acava.function.Action;
+import gg.acai.acava.scheduler.AsyncPlaceholder;
+import gg.acai.acava.scheduler.Schedulers;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 /**
@@ -32,8 +33,8 @@ public final class StandardJsonConfiguration<T> implements JsonConfiguration<T> 
     }
 
     @Override
-    public CompletableFuture<T> getAsync(String key) {
-        return CompletableFuture.supplyAsync(() -> this.get(key));
+    public AsyncPlaceholder<T> getAsync(String key) {
+        return Schedulers.supplyAsync(() -> this.get(key));
     }
 
     @Override
