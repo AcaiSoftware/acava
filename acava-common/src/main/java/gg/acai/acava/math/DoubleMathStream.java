@@ -7,6 +7,7 @@ import java.util.stream.Stream;
  * @since 06.12.2022 12:31
  * © Acava - All Rights Reserved
  */
+@Deprecated
 public class DoubleMathStream implements DoubleMath {
 
     private final Stream<? extends Number> stream;
