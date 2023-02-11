@@ -1,4 +1,4 @@
-package gg.acai.acava.util;
+package gg.acai.acava;
 
 import java.io.IOException;
 import java.net.URL;
