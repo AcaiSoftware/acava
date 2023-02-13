@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
  *     entities.register(new UserEntity("Clouke", UUID.randomUUID())); // Register a new entity.
  *
  *     entities.get(UserEntity.class, "Clouke") // Get the user entity.
- *        .whenComplete(profile -> {
+ *        .whenComplete(user -> {
  *            System.out.println(user.getUuid().toString());
  *        });
  *     }
