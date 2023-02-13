@@ -22,6 +22,8 @@ public class StandardLogger implements Logger {
         COLORS.put(Color.BLUE, gg.acai.acava.io.logging.Color.BLUE);
         COLORS.put(Color.CYAN, gg.acai.acava.io.logging.Color.CYAN);
         COLORS.put(Color.WHITE, gg.acai.acava.io.logging.Color.WHITE);
+        COLORS.put(Color.PINK, gg.acai.acava.io.logging.Color.PURPLE);
+        COLORS.put(null, "");
     }
 
     private final String prefix;
@@ -30,6 +32,14 @@ public class StandardLogger implements Logger {
     public StandardLogger(String prefix, String color) {
         this.prefix = prefix;
         this.color = color;
+    }
+
+    public StandardLogger(String prefix) {
+        this(prefix, gg.acai.acava.io.logging.Color.NONE);
+    }
+
+    public StandardLogger() {
+        this("");
     }
 
     @Override
