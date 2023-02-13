@@ -15,7 +15,7 @@ import java.util.concurrent.Callable;
  * @since 04.12.2022 00:56
  * © Acava - All Rights Reserved
  */
-public class Fetcher implements Callable<Void>, Closeable {
+public class Fetcher implements Callable<Fetcher>, Closeable {
 
     private static final Type TYPE = new TypeToken<Map<String, Object>>(){}
             .getType();
@@ -35,11 +35,11 @@ public class Fetcher implements Callable<Void>, Closeable {
     }
 
     @Override
-    public Void call() {
+    public Fetcher call() {
         Objects.requireNonNull(content, "Cannot convert to map, no data has been scanned");
         Objects.requireNonNull(callback, "Cannot call callback, no callback has been provided");
         this.callback.onCallback(map);
-        return null;
+        return this;
     }
 
     @Override
