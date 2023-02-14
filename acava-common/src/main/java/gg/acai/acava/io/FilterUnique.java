@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Unique filter implementation.
+ *
  * @author Clouke
  * @since 04.12.2022 23:13
  * © Acava - All Rights Reserved
