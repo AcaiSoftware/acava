@@ -11,12 +11,17 @@ import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 /**
+ * A simple fetcher class that fetches data from an url and converts it to a map.
+ *
  * @author Clouke
  * @since 04.12.2022 00:56
  * © Acava - All Rights Reserved
  */
 public class Fetcher implements Callable<Fetcher>, Closeable {
 
+    /**
+     * The type token for the map.
+     */
     private static final Type TYPE = new TypeToken<Map<String, Object>>(){}
             .getType();
 
@@ -24,6 +29,11 @@ public class Fetcher implements Callable<Fetcher>, Closeable {
     private final String content;
     private final Map<String, Object> map;
 
+    /**
+     * Creates a new builder for the fetcher.
+     *
+     * @return Returns a new builder.
+     */
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -34,6 +44,12 @@ public class Fetcher implements Callable<Fetcher>, Closeable {
         this.map = map;
     }
 
+    /**
+     * Calls the callback with the map.
+     *
+     * @return Returns this instance.
+     * @throws NullPointerException If the callback or the map is null.
+     */
     @Override
     public Fetcher call() {
         Objects.requireNonNull(content, "Cannot convert to map, no data has been scanned");
@@ -42,6 +58,9 @@ public class Fetcher implements Callable<Fetcher>, Closeable {
         return this;
     }
 
+    /**
+     * Closes the fetcher and clears the map.
+     */
     @Override
     public void close() {
         if (map != null) {
@@ -56,16 +75,29 @@ public class Fetcher implements Callable<Fetcher>, Closeable {
         private String scanned;
         private Map<String, Object> map;
 
+        /**
+         * Sets the url to fetch from.
+         *
+         * @param url The url to fetch from.
+         */
         public Builder url(String url) {
             this.url = url;
             return this;
         }
 
+        /**
+         * Sets the callback to call when the map is ready.
+         *
+         * @param callback The callback to call.
+         */
         public Builder callback(Callback<Map<String, Object>> callback) {
             this.callback = callback;
             return this;
         }
 
+        /**
+         * Scans the url and converts it to a string.
+         */
         public Builder scan() {
             synchronized (this) {
                 Scanner scanner = new Scanner(url);
@@ -79,17 +111,30 @@ public class Fetcher implements Callable<Fetcher>, Closeable {
             }
         }
 
+        /**
+         * Establishes the map from the scanned string.
+         */
         public Builder establishMap() {
             return establishMap(new GsonBuilder()
                     .setPrettyPrinting()
                     .create());
         }
 
+        /**
+         * Establishes the map from the scanned string.
+         *
+         * @param gson The gson instance to use.
+         */
         public Builder establishMap(Gson gson) {
             this.map = gson.fromJson(scanned, TYPE);
             return this;
         }
 
+        /**
+         * Builds the fetcher.
+         *
+         * @return Returns the fetcher.
+         */
         public Fetcher build() {
             return new Fetcher(callback, scanned, map);
         }
