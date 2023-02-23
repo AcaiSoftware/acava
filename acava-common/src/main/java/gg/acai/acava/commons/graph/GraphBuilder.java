@@ -13,6 +13,17 @@ import java.util.List;
 
 /**
  * A builder class for creating different types of graphs.
+ * <pre>
+ * <h3>Creating a new graph:</h3>
+ * {@code
+ * Graph<Number> graph = Graph.newBuilder()
+ *  .setHeight(15)
+ *  .setMaxDisplayValue(15)
+ *  .setMutability(Mutability.MUTABLE)
+ *  .build();
+ *  }
+ *  </pre>
+ *
  * @param <N> the type of the nodes in the graph (extending Number)
  *
  * @author Clouke
