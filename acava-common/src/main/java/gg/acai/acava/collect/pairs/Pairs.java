@@ -1,6 +1,6 @@
 package gg.acai.acava.collect.pairs;
 
-import java.util.function.Function;
+import gg.acai.acava.collect.Mutability;
 
 /**
  * @author Clouke
@@ -37,12 +37,16 @@ public interface Pairs<L, R> {
      */
     void setRight(R right);
 
-    default <T> T mapLeft(Function<? super L, ? extends T> leftMapper) {
-        return leftMapper.apply(left());
-    }
-
-    default <T> T mapRight(Function<? super R, ? extends T> rightMapper) {
-        return rightMapper.apply(right());
+    /**
+     * Creates a new pair based on the given mutability.
+     *
+     * @param m The mutability of the pair.
+     * @param left The left value of the pair.
+     * @param right The right value of the pair.
+     * @return Returns a new pair based on the given mutability.
+     */
+    static <L, R> Pairs<L, R> of(Mutability m, L left, R right) {
+        return m == Mutability.MUTABLE ? new MutablePair<>(left, right) : new ImmutablePair<>(left, right);
     }
 
 }
