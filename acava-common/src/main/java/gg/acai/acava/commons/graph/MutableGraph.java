@@ -22,6 +22,7 @@ public final class MutableGraph<N extends Number> extends AbstractGraph<N> imple
 
     @Override
     public Graph<N> addNode(N node) {
+        super.nodes.add(node);
         return this;
     }
 
@@ -70,20 +71,5 @@ public final class MutableGraph<N extends Number> extends AbstractGraph<N> imple
     public int getNodes() {
         return super.nodes.size();
     }
-
-    /*
-    @Override
-    public String visualize() {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < nodes.size(); i++) {
-            N node = nodes.get(i);
-            builder.append(node);
-            if (i < nodes.size() - 1) {
-                builder.append(" -> ");
-            }
-        }
-        return builder.toString();
-    }
-     */
 
 }
