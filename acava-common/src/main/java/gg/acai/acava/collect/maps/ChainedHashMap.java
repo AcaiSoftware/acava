@@ -1,5 +1,7 @@
 package gg.acai.acava.collect.maps;
 
+import gg.acai.acava.collect.Mutable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +12,7 @@ import java.util.Map;
  * @since 05.12.2022 19:47
  * © Acava - All Rights Reserved
  */
-public class ChainedHashMap<K, V> extends HashMap<K, V> {
+public class ChainedHashMap<K, V> extends HashMap<K, V> implements Mutable {
 
     /**
      * Appends a key-value into the map.
