@@ -1,6 +1,7 @@
 package gg.acai.acava.collect.lists;
 
 import com.google.common.base.Preconditions;
+import gg.acai.acava.collect.Mutable;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -15,7 +16,7 @@ import java.util.LinkedList;
  *
  * @param <E> the type of elements stored in this list
  */
-public class FixedSizeQueue<E> extends LinkedList<E> {
+public class FixedSizeQueue<E> extends LinkedList<E> implements Mutable {
 
     /**
      * The maximum size of the list
