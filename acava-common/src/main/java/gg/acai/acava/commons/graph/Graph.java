@@ -10,6 +10,32 @@ import java.util.function.Function;
 
 /**
  * The Graph interface defines methods for building and manipulating graphs.
+ * <strong>NOTE:</strong> The graph is mutable by default, and must be explicitly set to immutable in order to be immutable.
+ * <h4>Creating a new graph:</h4>
+ * <pre>
+ *   {@code
+ *   Graph<Number> graph = Graph.newBuilder()
+ *      .setHeight(15)
+ *      .setMaxDisplayValue(15)
+ *      .setMutability(Mutability.MUTABLE)
+ *      .build();
+ * }
+ * </pre>
+ * <h4>Adding nodes to a graph:</h4>
+ * <pre>
+ *   {@code
+ *   graph.addNode(5);
+ *   graph.addNodes(1, 2, 3, 4, 5);
+ *   graph.addNodes(Arrays.asList(1, 2, 3, 4, 5));
+ * }
+ * </pre>
+ * <h4>Mapping a graph for node modification:</h4>
+ * <pre>
+ * {@code
+ *  graph.map(node -> node.intValue() + 1);
+ * }
+ * </pre>
+ *
  * @param <N> the type of node in the graph.
  *
  * @author Clouke
