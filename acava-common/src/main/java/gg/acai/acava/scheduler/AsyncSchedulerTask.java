@@ -51,14 +51,10 @@ public class AsyncSchedulerTask implements SchedulerTask {
     public SchedulerTask start() {
         switch (context) {
             case TIMER:
-                executorService.scheduleAtFixedRate(() -> {
-                    runnable.run();
-                }, 0, interval, unit);
+                executorService.scheduleAtFixedRate(runnable, 0, interval, unit);
                 break;
             case LATER:
-                executorService.schedule(() -> {
-                    runnable.run();
-                }, interval, unit);
+                executorService.schedule(runnable, interval, unit);
                 break;
         }
         return this;
