@@ -1,5 +1,7 @@
 package gg.acai.acava;
 
+import java.util.function.Supplier;
+
 /**
  * @author Clouke
  * @since 05.12.2022 01:11
@@ -24,6 +26,10 @@ public final class Requisites {
     public static <T> T applyIfNull(T value, T newValue) {
         return value == null ? newValue : value;
     }
+    public static <T> T applyIfNull(T value, Supplier<T> newValue) {
+        return value == null ? newValue.get() : value;
+    }
+
 
     public static <T> T applyIfNull(T value, T newValue, String message) {
         if (value == null && newValue == null) {
@@ -36,6 +42,10 @@ public final class Requisites {
         if (!expression) {
             throw new IllegalArgumentException(message);
         }
+    }
+
+    public static void checkArgument(boolean expression) {
+        checkArgument(expression, "Illegal argument");
     }
 
     public static <T> T createInstance(Class<T> clazz) {
