@@ -1,5 +1,7 @@
 package gg.acai.acava.collect.maps;
 
+import gg.acai.acava.collect.Mutable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -12,7 +14,7 @@ import java.util.function.Function;
  * @since 03.12.2022 19:48
  * © Acava - All Rights Reserved
  */
-public class FixedSizeHashMap<K, V> extends HashMap<K, V> {
+public class FixedSizeHashMap<K, V> extends HashMap<K, V> implements Mutable {
 
     /**
      * The maximum size of the map.
