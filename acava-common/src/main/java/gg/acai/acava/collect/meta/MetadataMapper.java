@@ -1,5 +1,7 @@
 package gg.acai.acava.collect.meta;
 
+import gg.acai.acava.collect.Mutable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +12,7 @@ import java.util.Map;
  * @since 02.12.2022 18:17
  * © Acava - All Rights Reserved
  */
-public class MetadataMapper<K, V> {
+public class MetadataMapper<K, V> implements Mutable {
 
     /**
      * The map that holds the metadata
