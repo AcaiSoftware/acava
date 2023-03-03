@@ -133,7 +133,7 @@ public class GraphBuilder<N extends Number> {
      * @throws IllegalArgumentException if trying to build an immutable graph without any nodes added
      * @return the built graph
      */
-    public Graph<N> build() {
+    public <R extends Number> Graph<R> build() {
         if (fixedSize != -1)
             return new FixedSizeGraph<>(fixedSize, height, maxValue);
 
@@ -144,7 +144,9 @@ public class GraphBuilder<N extends Number> {
                 "Cannot build immutable graph without nodes. Use addImmutableNodes(...)"
         );
 
-        return new ImmutableGraph<>(new ImmutableList<>(immutableNodes), height, maxValue);
+        @SuppressWarnings("unchecked") // cast is safe because we know that the nodes are immutable
+        ImmutableList<R> list = (ImmutableList<R>) new ImmutableList<>(this.immutableNodes);
+        return new ImmutableGraph<>(list, height, maxValue);
     }
 
     /**
