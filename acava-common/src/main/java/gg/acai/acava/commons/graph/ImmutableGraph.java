@@ -64,4 +64,9 @@ public final class ImmutableGraph<N extends Number> extends AbstractGraph<N> imp
     public int getNodes() {
         return super.nodes.size();
     }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException("Cannot clear an immutable graph");
+    }
 }

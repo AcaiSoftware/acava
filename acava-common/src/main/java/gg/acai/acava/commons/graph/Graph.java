@@ -165,4 +165,9 @@ public interface Graph<N extends Number> {
         return new ImmutableGraph<>(immutableNodes, height, limiter);
     }
 
+    /**
+    * Clears the graph of all nodes.
+    */
+    void clear();
+
 }

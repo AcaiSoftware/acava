@@ -72,4 +72,9 @@ public final class MutableGraph<N extends Number> extends AbstractGraph<N> imple
         return super.nodes.size();
     }
 
+    @Override
+    public void clear() {
+        super.nodes.clear();
+    }
+
 }

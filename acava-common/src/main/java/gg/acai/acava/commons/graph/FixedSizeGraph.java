@@ -69,4 +69,9 @@ public class FixedSizeGraph<N extends Number> extends AbstractGraph<N> implement
     public int getNodes() {
         return super.nodes.size();
     }
+
+    @Override
+    public void clear() {
+        super.nodes.clear();
+    }
 }
