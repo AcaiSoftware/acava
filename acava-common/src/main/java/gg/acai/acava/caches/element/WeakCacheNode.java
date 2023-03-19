@@ -1,6 +1,6 @@
 package gg.acai.acava.caches.element;
 
-import gg.acai.acava.caches.CacheElement;
+import gg.acai.acava.caches.CacheNode;
 
 import java.lang.ref.WeakReference;
 
@@ -9,11 +9,11 @@ import java.lang.ref.WeakReference;
  * @since 19.03.2023 15:21
  * © Acava - All Rights Reserved
  */
-public final class WeakCacheElement<V> implements CacheElement<V> {
+public final class WeakCacheNode<V> implements CacheNode<V> {
 
   private WeakReference<V> reference;
 
-  public WeakCacheElement(V value) {
+  public WeakCacheNode(V value) {
     this.reference = new WeakReference<>(value);
   }
 
