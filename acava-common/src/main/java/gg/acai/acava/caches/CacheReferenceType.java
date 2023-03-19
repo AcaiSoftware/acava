@@ -1,9 +1,9 @@
 package gg.acai.acava.caches;
 
-import gg.acai.acava.caches.element.DefaultCacheElement;
-import gg.acai.acava.caches.element.PhantomCacheElement;
-import gg.acai.acava.caches.element.SoftCacheElement;
-import gg.acai.acava.caches.element.WeakCacheElement;
+import gg.acai.acava.caches.element.DefaultCacheNode;
+import gg.acai.acava.caches.element.PhantomCacheNode;
+import gg.acai.acava.caches.element.SoftCacheNode;
+import gg.acai.acava.caches.element.WeakCacheNode;
 
 /**
  * @author Clouke
@@ -16,16 +16,16 @@ public enum CacheReferenceType {
   PHANTOM,
   DEFAULT;
 
-  public <V> CacheElement<V> createWith(V value) {
+  public <V> CacheNode<V> createWith(V value) {
     switch (this) {
       case SOFT:
-        return new SoftCacheElement<>(value);
+        return new SoftCacheNode<>(value);
       case WEAK:
-        return new WeakCacheElement<>(value);
+        return new WeakCacheNode<>(value);
       case DEFAULT:
-        return new DefaultCacheElement<>(value);
+        return new DefaultCacheNode<>(value);
       case PHANTOM:
-        return new PhantomCacheElement<>(value);
+        return new PhantomCacheNode<>(value);
       default:
         throw new IllegalStateException("Unknown reference type: " + this);
     }
