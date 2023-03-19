@@ -27,7 +27,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   protected final CacheReferenceType cacheReferenceType;
   protected final CacheStatistics statistics = new CacheStatistics();
 
-  protected final Map<K, CacheElement<V>> cache;
+  protected final Map<K, CacheNode<V>> cache;
 
   public static class DEFAULT_CACHE<K, V> extends AbstractCache<K, V> {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -68,7 +68,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   public void put(K key, V value) {
     try {
       lock();
-      CacheElement<V> reference = cacheReferenceType.createWith(value);
+      CacheNode<V> reference = cacheReferenceType.createWith(value);
       cache.put(key, reference);
       statistics.use();
     } finally {
@@ -80,7 +80,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   public Optional<V> get(K key) {
     try {
       lock();
-      CacheElement<V> element = cache.get(key);
+      CacheNode<V> element = cache.get(key);
       if (element == null) {
         statistics.miss();
         return Optional.empty();
@@ -126,8 +126,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   @Override
   public boolean containsValue(V value) {
-    CacheElement<V> element;
-    for (Map.Entry<K, CacheElement<V>> entry : cache.entrySet()) {
+    CacheNode<V> element;
+    for (Map.Entry<K, CacheNode<V>> entry : cache.entrySet()) {
       if ((element = entry.getValue()) != null && element.get() == value) {
         return true;
       }
@@ -148,8 +148,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   @Override
   public Collection<V> values() {
     Collection<V> values = new ArrayList<>(cache.size());
-    CacheElement<V> element;
-    for (Map.Entry<K, CacheElement<V>> entry : cache.entrySet()) {
+    CacheNode<V> element;
+    for (Map.Entry<K, CacheNode<V>> entry : cache.entrySet()) {
       if ((element = entry.getValue()) != null) {
         values.add(element.get());
       }
@@ -160,8 +160,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   @Override
   public Map<K, V> asMap() {
     Map<K, V> map = new HashMap<>(cache.size());
-    CacheElement<V> element;
-    for (Map.Entry<K, CacheElement<V>> entry : cache.entrySet()) {
+    CacheNode<V> element;
+    for (Map.Entry<K, CacheNode<V>> entry : cache.entrySet()) {
       if ((element = entry.getValue()) != null) {
         map.put(entry.getKey(), element.get());
       }
