@@ -78,4 +78,14 @@ public class CacheStatistics {
     hitRateGraph.addNode(hr);
   }
 
+  @Override
+  public String toString() {
+    return "CacheStatistics{" +
+      "hitMissRatio=" + hitMissRatio +
+      ", hitCount=" + hitCount +
+      ", missCount=" + missCount +
+      ", usageCount=" + usageCount +
+      ", clearCount=" + clearCount +
+      '}';
+  }
 }
