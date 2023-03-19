@@ -1,6 +1,6 @@
 package gg.acai.acava.caches.element;
 
-import gg.acai.acava.caches.CacheElement;
+import gg.acai.acava.caches.CacheNode;
 
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
@@ -10,15 +10,15 @@ import java.lang.ref.ReferenceQueue;
  * @since 19.03.2023 18:15
  * © Acava - All Rights Reserved
  */
-public class PhantomCacheElement<V> implements CacheElement<V> {
+public class PhantomCacheNode<V> implements CacheNode<V> {
 
   private PhantomReference<V> reference;
 
-  public PhantomCacheElement(V value, ReferenceQueue<V> queue) {
+  public PhantomCacheNode(V value, ReferenceQueue<V> queue) {
     this.reference = new PhantomReference<>(value, queue);
   }
 
-  public PhantomCacheElement(V value) {
+  public PhantomCacheNode(V value) {
     this(value, null);
   }
 
