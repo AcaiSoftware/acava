@@ -5,7 +5,7 @@ package gg.acai.acava.caches;
  * @since 19.03.2023 15:20
  * © Acava - All Rights Reserved
  */
-public interface CacheElement<V> {
+public interface CacheNode<V> {
 
   V get();
 
