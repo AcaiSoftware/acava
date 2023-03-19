@@ -1,6 +1,6 @@
 package gg.acai.acava.caches.element;
 
-import gg.acai.acava.caches.CacheElement;
+import gg.acai.acava.caches.CacheNode;
 
 import java.lang.ref.SoftReference;
 
@@ -9,11 +9,11 @@ import java.lang.ref.SoftReference;
  * @since 19.03.2023 15:20
  * © Acava - All Rights Reserved
  */
-public final class SoftCacheElement<V> implements CacheElement<V> {
+public final class SoftCacheNode<V> implements CacheNode<V> {
 
   private SoftReference<V> reference;
 
-  public SoftCacheElement(V value) {
+  public SoftCacheNode(V value) {
     this.reference = new SoftReference<>(value);
   }
 
