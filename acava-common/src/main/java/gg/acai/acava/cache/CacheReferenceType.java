@@ -1,9 +1,9 @@
-package gg.acai.acava.caches;
+package gg.acai.acava.cache;
 
-import gg.acai.acava.caches.element.DefaultCacheNode;
-import gg.acai.acava.caches.element.PhantomCacheNode;
-import gg.acai.acava.caches.element.SoftCacheNode;
-import gg.acai.acava.caches.element.WeakCacheNode;
+import gg.acai.acava.cache.element.DefaultCacheNode;
+import gg.acai.acava.cache.element.PhantomCacheNode;
+import gg.acai.acava.cache.element.SoftCacheNode;
+import gg.acai.acava.cache.element.WeakCacheNode;
 
 /**
  * @author Clouke

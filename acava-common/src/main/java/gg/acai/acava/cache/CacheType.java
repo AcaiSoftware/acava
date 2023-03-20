@@ -1,4 +1,4 @@
-package gg.acai.acava.caches;
+package gg.acai.acava.cache;
 
 /**
  * @author Clouke

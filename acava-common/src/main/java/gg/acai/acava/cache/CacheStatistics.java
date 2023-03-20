@@ -1,4 +1,4 @@
-package gg.acai.acava.caches;
+package gg.acai.acava.cache;
 
 import gg.acai.acava.collect.Mutability;
 import gg.acai.acava.commons.graph.Graph;
