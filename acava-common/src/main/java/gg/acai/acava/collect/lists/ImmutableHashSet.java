@@ -16,6 +16,12 @@ import java.util.function.Predicate;
  */
 public class ImmutableHashSet<E> extends HashSet<E> implements Immutable {
 
+    public ImmutableHashSet(Collection<? extends E> collection) {
+        super(collection);
+    }
+
+    public ImmutableHashSet() {}
+
     @Override @Deprecated
     public boolean add(E e) {
         throw new UnsupportedOperationException("Cannot add elements to an immutable set");
