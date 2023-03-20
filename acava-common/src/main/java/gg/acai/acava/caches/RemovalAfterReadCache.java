@@ -26,4 +26,11 @@ public class RemovalAfterReadCache<K, V> extends AbstractCache<K, V> {
         return toReturn;
       });
   }
+
+  @Override
+  public String toString() {
+    return "RemovalAfterReadCache{" +
+            "cache=" + cache +
+            '}';
+  }
 }
