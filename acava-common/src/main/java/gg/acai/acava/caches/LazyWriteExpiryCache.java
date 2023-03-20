@@ -18,8 +18,8 @@ public final class LazyWriteExpiryCache<K, V> extends AbstractCache<K, V> {
   private final Map<K, Long> writes = new HashMap<>();
 
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  public LazyWriteExpiryCache(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap, ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock) {
-    super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock);
+  public LazyWriteExpiryCache(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap, ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock, CacheObserver<K, V> observer) {
+    super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
     Requisites.checkArgument(expireAfterWrite > 0, "Expire after write must be greater than 0");
   }
 
