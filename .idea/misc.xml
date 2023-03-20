@@ -20,7 +20,9 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/acava-benchmarks/pom.xml" />
         <option value="$PROJECT_DIR$/acava-graphql/pom.xml" />
+        <option value="$PROJECT_DIR$/acava-postgresql/pom.xml" />
       </set>
     </option>
   </component>
