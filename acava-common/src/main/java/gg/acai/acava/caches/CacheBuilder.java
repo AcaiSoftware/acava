@@ -1,5 +1,6 @@
 package gg.acai.acava.caches;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -20,13 +21,14 @@ public class CacheBuilder<K, V> {
   private ParametricCacheBootstrap<?> pcb;
   private CacheReferenceType cacheReferenceType = CacheReferenceType.DEFAULT;
   private Lock lock;
+  private CacheObserver<?, ?> observer;
 
   public CacheBuilder<K, V> withSize(int size) {
     this.size = Optional.of(size);
     return this;
   }
 
-  public CacheBuilder<K, V> withType(CacheType type) {
+  public CacheBuilder<K, V> asType(CacheType type) {
     this.type = type;
     return this;
   }
@@ -57,8 +59,28 @@ public class CacheBuilder<K, V> {
     return this;
   }
 
+  public <U, O> CacheBuilder<K, V> withObserver(CacheObserver<U, O> observer) {
+    this.observer = observer;
+    return this;
+  }
+
   public <U, O> Cache<U, O> build() {
-    return new AbstractCache.DEFAULT_CACHE<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock);
+    CacheObserver<U, O> observer = null;
+    if (this.observer != null) {
+      observer = (CacheObserver<U, O>) this.observer;
+    }
+    if (expireAfterWrite != -1L) {
+      Objects.requireNonNull(unit, "TimeUnit must be set if expireAfterWrite is set");
+      return new LazyWriteExpiryCache<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
+    }
+    switch (type) {
+      case LRU:
+        return new LRUCache<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
+      case REMOVAL_AFTER_READ:
+        return new RemovalAfterReadCache<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
+      default:
+        return new AbstractCache.DEFAULT_CACHE<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
+    }
   }
 
 }
