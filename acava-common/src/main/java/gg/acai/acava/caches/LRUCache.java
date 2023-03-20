@@ -21,27 +21,18 @@ public class LRUCache<K, V> extends AbstractCache<K, V> {
 
   @Override
   public Optional<V> get(K key) {
-    try {
-      if (useLock) {
-        lock.lock();
+    Optional<V> value = super.get(key);
+    if (value.isPresent()) {
+      V v = value.get();
+      super.remove(key);
+      super.put(key, v);
+      if (cache.size() > maxSize) {
+        cache.remove(cache.keySet().iterator().next());
       }
-      Optional<V> value = super.get(key);
-      if (value.isPresent()) {
-        V v = value.get();
-        super.remove(key);
-        super.put(key, v);
-        if (cache.size() > maxSize) {
-          cache.remove(cache.keySet().iterator().next());
-        }
-        statistics.hit();
-        return Optional.of(v);
-      }
-      statistics.miss();
-      return Optional.empty();
-    } finally {
-      if (lock != null) {
-        lock.unlock();
-      }
+      statistics.hit();
+      return Optional.of(v);
     }
+    statistics.miss();
+    return Optional.empty();
   }
 }
