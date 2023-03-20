@@ -38,6 +38,10 @@ public class ImmutableList<N> extends AbstractList<N> implements List<N>, Random
         return new ImmutableList<>(nodes);
     }
 
+    public static <N> ImmutableList<N> copyOf(Collection<N> nodes) {
+        return new ImmutableList<>(nodes);
+    }
+
     /**
      * Returns a new immutable list containing the given list of elements.
      *
