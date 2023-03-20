@@ -69,8 +69,8 @@ public class CacheStatistics {
   }
 
   protected void computeHitMissRatio() {
-    if (hitCount == 0 || missCount == 0) {
-      hitMissRatio = 0;
+    if (hitCount == 0L || missCount == 0L) {
+      hitMissRatio = 0.0D;
       return;
     }
     hitMissRatio = (double) hitCount / (double) missCount;
