@@ -18,16 +18,11 @@ public class RemovalAfterReadCache<K, V> extends AbstractCache<K, V> {
 
   @Override
   public Optional<V> get(K key) {
-    try {
-      lock();
-      Optional<V> value = super.get(key);
-      return value.map(
-        toReturn -> {
-          cache.remove(key);
-          return toReturn;
-        });
-    } finally {
-      unlock();
-    }
+    Optional<V> value = super.get(key);
+    return value.map(
+      toReturn -> {
+        cache.remove(key);
+        return toReturn;
+      });
   }
 }
