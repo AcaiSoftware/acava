@@ -35,4 +35,12 @@ public class LRUCache<K, V> extends AbstractCache<K, V> {
     statistics.miss();
     return Optional.empty();
   }
+
+  @Override
+  public String toString() {
+    return "LRUCache{" +
+            "cache=" + cache +
+            ", maxSize=" + maxSize +
+            '}';
+  }
 }
