@@ -87,17 +87,6 @@ public class ChainedHashMap<K, V> extends HashMap<K, V> implements Mutable {
     }
 
     /**
-     * Merges a key-value into the map.
-     *
-     * @param key The key to merge.
-     * @param value The value to merge.
-     */
-    public ChainedHashMap<K, V> merge(K key, V value) {
-        super.put(key, value);
-        return this;
-    }
-
-    /**
      * Merges two maps into the map.
      *
      * @param map The first map to merge.
