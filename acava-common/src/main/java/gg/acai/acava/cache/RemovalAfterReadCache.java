@@ -1,4 +1,4 @@
-package gg.acai.acava.caches;
+package gg.acai.acava.cache;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;

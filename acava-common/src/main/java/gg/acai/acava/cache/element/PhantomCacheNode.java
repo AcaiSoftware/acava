@@ -1,6 +1,6 @@
-package gg.acai.acava.caches.element;
+package gg.acai.acava.cache.element;
 
-import gg.acai.acava.caches.CacheNode;
+import gg.acai.acava.cache.CacheNode;
 
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
