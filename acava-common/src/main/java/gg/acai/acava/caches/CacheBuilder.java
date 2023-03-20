@@ -1,5 +1,7 @@
 package gg.acai.acava.caches;
 
+import gg.acai.acava.annotated.ThrowsException;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -64,10 +66,16 @@ public class CacheBuilder<K, V> {
     return this;
   }
 
+  @SuppressWarnings("unchecked")
+  @ThrowsException(IllegalArgumentException.class)
   public <U, O> Cache<U, O> build() {
     CacheObserver<U, O> observer = null;
     if (this.observer != null) {
-      observer = (CacheObserver<U, O>) this.observer;
+      try {
+        observer = (CacheObserver<U, O>) this.observer;
+      } catch (ClassCastException e) {
+        throw new IllegalArgumentException("Generic mismatch between CacheBuilder and CacheObserver");
+      }
     }
     if (expireAfterWrite != -1L) {
       Objects.requireNonNull(unit, "TimeUnit must be set if expireAfterWrite is set");
