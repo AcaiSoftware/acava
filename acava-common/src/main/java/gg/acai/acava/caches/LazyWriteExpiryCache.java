@@ -62,4 +62,12 @@ public final class LazyWriteExpiryCache<K, V> extends AbstractCache<K, V> {
     }
   }
 
+  @Override
+  public String toString() {
+    return "LazyWriteExpiryCache{" +
+            "cache=" + cache +
+            ", writes=" + writes +
+            '}';
+  }
+
 }
