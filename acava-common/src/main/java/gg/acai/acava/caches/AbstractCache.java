@@ -51,9 +51,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     switch (type) {
       case DEFAULT:
       case REMOVAL_AFTER_READ:
-        if (size.isPresent()) {
-          throw new IllegalArgumentException("Size must not be specified for default cache");
-        }
         cache = new HashMap<>();
         break;
       case FIXED_SIZE:
