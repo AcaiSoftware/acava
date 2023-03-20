@@ -8,5 +8,6 @@ package gg.acai.acava.caches;
 public enum CacheType {
   FIXED_SIZE,
   LRU,
+  REMOVAL_AFTER_READ,
   DEFAULT
 }
