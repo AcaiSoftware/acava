@@ -26,19 +26,20 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   protected final ParametricCacheBootstrap<?> pcb;
   protected final CacheReferenceType cacheReferenceType;
   protected final CacheStatistics statistics = new CacheStatistics();
+  protected final CacheObserver<K, V> observer;
 
   protected final Map<K, CacheNode<V>> cache;
 
   public static class DEFAULT_CACHE<K, V> extends AbstractCache<K, V> {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public DEFAULT_CACHE(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap,
-      ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock) {
-        super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock);
+      ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock, CacheObserver<K, V> observer) {
+        super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
       }
   }
 
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  public AbstractCache(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap, ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock) {
+  public AbstractCache(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap, ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock, CacheObserver<K, V> observer) {
     this.lock = lock;
     this.useLock = lock != null;
     this.expireAfterWrite = expireAfterWrite;
@@ -46,8 +47,10 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     this.bootstrap = bootstrap;
     this.pcb = pcb;
     this.cacheReferenceType = cacheReferenceType;
+    this.observer = observer;
     switch (type) {
       case DEFAULT:
+      case REMOVAL_AFTER_READ:
         if (size.isPresent()) {
           throw new IllegalArgumentException("Size must not be specified for default cache");
         }
@@ -70,6 +73,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
       lock();
       CacheNode<V> reference = cacheReferenceType.createWith(value);
       cache.put(key, reference);
+      notify(CacheContext.PUT, key, value);
       statistics.use();
     } finally {
       unlock();
@@ -80,17 +84,18 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   public Optional<V> get(K key) {
     try {
       lock();
-      CacheNode<V> element = cache.get(key);
-      if (element == null) {
+      CacheNode<V> node = cache.get(key);
+      if (node == null) {
         statistics.miss();
         return Optional.empty();
       }
-      V value = element.get();
+      V value = node.get();
       if (value == null) {
         cache.remove(key);
         statistics.miss();
         return Optional.empty();
       }
+      notify(CacheContext.GET, key, value);
       statistics.hit();
       return Optional.of(value);
     } finally {
@@ -102,7 +107,9 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   public void remove(K key) {
     try {
       lock();
-      cache.remove(key);
+      CacheNode<V> node = cache.remove(key);
+      notify(CacheContext.REMOVE, key, node.get());
+      node.clear();
     } finally {
       unlock();
     }
@@ -126,9 +133,9 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   @Override
   public boolean containsValue(V value) {
-    CacheNode<V> element;
+    CacheNode<V> node;
     for (Map.Entry<K, CacheNode<V>> entry : cache.entrySet()) {
-      if ((element = entry.getValue()) != null && element.get() == value) {
+      if ((node = entry.getValue()) != null && node.get() == value) {
         return true;
       }
     }
@@ -148,10 +155,10 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   @Override
   public Collection<V> values() {
     Collection<V> values = new ArrayList<>(cache.size());
-    CacheNode<V> element;
+    CacheNode<V> node;
     for (Map.Entry<K, CacheNode<V>> entry : cache.entrySet()) {
-      if ((element = entry.getValue()) != null) {
-        values.add(element.get());
+      if ((node = entry.getValue()) != null) {
+        values.add(node.get());
       }
     }
     return values;
@@ -160,10 +167,10 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   @Override
   public Map<K, V> asMap() {
     Map<K, V> map = new HashMap<>(cache.size());
-    CacheNode<V> element;
+    CacheNode<V> node;
     for (Map.Entry<K, CacheNode<V>> entry : cache.entrySet()) {
-      if ((element = entry.getValue()) != null) {
-        map.put(entry.getKey(), element.get());
+      if ((node = entry.getValue()) != null) {
+        map.put(entry.getKey(), node.get());
       }
     }
     return map;
@@ -180,5 +187,9 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   protected void unlock() {
     if (useLock) lock.unlock();
+  }
+
+  protected void notify(CacheContext ctx, K key, V value) {
+    if (observer != null) observer.onUpdate(ctx, key, value);
   }
 }
