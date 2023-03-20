@@ -12,7 +12,6 @@
         <module>acava-common</module>
         <module>acava-mongo</module>
         <module>acava-discord</module>
-        <module>acava-postgresql</module>
         <module>acava-http</module>
         <module>acava-math</module>
     </modules>
