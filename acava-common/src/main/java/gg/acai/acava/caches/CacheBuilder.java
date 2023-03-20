@@ -32,7 +32,7 @@ public class CacheBuilder<K, V> {
 
   public CacheBuilder<K, V> asType(CacheType type) {
     if (expireAfterWrite != 1L && unit != null) {
-      throw new IllegalArgumentException("Cannot set type to " + type + " when expireAfterWrite is set");
+      throw new IllegalArgumentException("Cannot set type to 'CacheType." + type.name() + "' when expireAfterWrite is set");
     }
     this.type = type;
     return this;
