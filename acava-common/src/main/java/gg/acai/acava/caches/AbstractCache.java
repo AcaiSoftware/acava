@@ -35,7 +35,14 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     public DEFAULT_CACHE(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap,
       ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock, CacheObserver<K, V> observer) {
         super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
-      }
+    }
+
+    @Override
+    public String toString() {
+      return "DEFAULT_CACHE{" +
+        "cache=" + cache +
+        '}';
+    }
   }
 
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -57,12 +64,15 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
         cache = new FixedSizeHashMap<>(size.orElseThrow(() -> new IllegalArgumentException("Size must be specified for fixed size cache")));
         break;
       case LRU:
-        cache = new LinkedHashMap<>(size.orElseThrow(() -> new IllegalArgumentException("Size must be specified for fixed size cache")), 0.75f, true);
+        cache = new LinkedHashMap<>(size.orElseThrow(() -> new IllegalArgumentException("Size must be specified for LRU cache")), 0.75f, true);
         break;
       default:
         throw new IllegalArgumentException("Unknown cache type: " + type);
     }
   }
+
+  @Override
+  public abstract String toString();
 
   @Override
   public void put(K key, V value) {
