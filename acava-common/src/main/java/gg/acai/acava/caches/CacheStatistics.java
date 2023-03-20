@@ -74,8 +74,8 @@ public class CacheStatistics {
       return;
     }
     hitMissRatio = (double) hitCount / (double) missCount;
-    double hr = hitMissRatio;
-    hitRateGraph.addNode(hr);
+    double hm = hitMissRatio;
+    hitRateGraph.addNode(hm);
   }
 
   @Override
