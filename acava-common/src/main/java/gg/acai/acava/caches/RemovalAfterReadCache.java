@@ -12,8 +12,9 @@ import java.util.concurrent.locks.Lock;
 public class RemovalAfterReadCache<K, V> extends AbstractCache<K, V> {
 
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  public RemovalAfterReadCache(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap, ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock) {
-    super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock);
+  public RemovalAfterReadCache(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap,
+    ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock, CacheObserver<K, V> observer) {
+      super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
   }
 
   @Override
