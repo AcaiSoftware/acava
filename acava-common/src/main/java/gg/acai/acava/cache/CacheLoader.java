@@ -1,4 +1,4 @@
-package gg.acai.acava.caches;
+package gg.acai.acava.cache;
 
 import gg.acai.acava.collect.lists.FixedSizeQueue;
 import gg.acai.acava.io.Closeable;
