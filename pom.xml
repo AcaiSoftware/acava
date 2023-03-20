@@ -7,7 +7,7 @@
     <groupId>gg.acai</groupId>
     <artifactId>Acava</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <modules>
         <module>acava-common</module>
         <module>acava-mongo</module>
