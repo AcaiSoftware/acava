@@ -8,10 +8,11 @@ package gg.acai.acava.event;
 @FunctionalInterface
 public interface EventListener {
 
-    /**
-     * Called when the event is fired.
-     * @param event The event that was fired.
-     */
-    void onEvent(Event event);
+  /**
+   * Called when the event is fired.
+   *
+   * @param event The event that was fired.
+   */
+  void onEvent(Event event);
 
 }
