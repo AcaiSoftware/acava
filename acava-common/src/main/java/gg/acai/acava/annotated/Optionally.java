@@ -10,5 +10,5 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Optionally {
-    String value() default "";
+  String value() default "";
 }

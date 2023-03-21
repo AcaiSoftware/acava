@@ -9,36 +9,36 @@ package gg.acai.acava.io;
  */
 public final class Reference<V> {
 
-    /**
-     * The value of the reference.
-     */
-    private V value;
+  /**
+   * The value of the reference.
+   */
+  private V value;
 
-    /**
-     * Creates a new reference with the given value.
-     *
-     * @param value The value of the reference
-     */
-    public Reference(V value) {
-        this.value = value;
-    }
+  /**
+   * Creates a new reference with the given value.
+   *
+   * @param value The value of the reference
+   */
+  public Reference(V value) {
+    this.value = value;
+  }
 
-    /**
-     * Gets the value of the reference.
-     *
-     * @return The value of the reference
-     */
-    public V get() {
-        return this.value;
-    }
+  /**
+   * Gets the value of the reference.
+   *
+   * @return The value of the reference
+   */
+  public V get() {
+    return this.value;
+  }
 
-    /**
-     * Sets the value of the reference.
-     *
-     * @param value The value of the reference
-     */
-    public void set(V value) {
-        this.value = value;
-    }
+  /**
+   * Sets the value of the reference.
+   *
+   * @param value The value of the reference
+   */
+  public void set(V value) {
+    this.value = value;
+  }
 
 }
