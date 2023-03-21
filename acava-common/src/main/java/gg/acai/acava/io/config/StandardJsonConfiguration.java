@@ -15,55 +15,57 @@ import java.util.stream.Stream;
  */
 public final class StandardJsonConfiguration<T> implements JsonConfiguration<T> {
 
-    private final Map<String, Object> map;
+  private final Map<String, Object> map;
 
-    public StandardJsonConfiguration(Map<String, Object> map) {
-        this.map = map;
-    }
+  public StandardJsonConfiguration(Map<String, Object> map) {
+    this.map = map;
+  }
 
-    @Override @SuppressWarnings("unchecked")
-    public T get(String key) {
-        T value = null;
-        try {
-            value = (T) this.map.get(key);
-        } catch (ClassCastException e) {
-            e.printStackTrace();
-        }
-        return value;
+  @Override
+  @SuppressWarnings("unchecked")
+  public T get(String key) {
+    T value = null;
+    try {
+      value = (T) this.map.get(key);
+    } catch (ClassCastException e) {
+      e.printStackTrace();
     }
+    return value;
+  }
 
-    @Override
-    public AsyncPlaceholder<T> getAsync(String key) {
-        return Schedulers.supplyAsync(() -> this.get(key));
-    }
+  @Override
+  public AsyncPlaceholder<T> getAsync(String key) {
+    return Schedulers.supplyAsync(() -> this.get(key));
+  }
 
-    @Override
-    public Optional<T> getOptional(String key) {
-        return Optional.ofNullable(this.get(key));
-    }
+  @Override
+  public Optional<T> getOptional(String key) {
+    return Optional.ofNullable(this.get(key));
+  }
 
-    @Override
-    public JsonConfiguration<T> getIfPresent(String key, Action<T> action) {
-        T value = this.get(key);
-        if (value != null) action.accept(value);
-        return this;
-    }
+  @Override
+  public JsonConfiguration<T> getIfPresent(String key, Action<T> action) {
+    T value = this.get(key);
+    if (value != null) action.accept(value);
+    return this;
+  }
 
-    @Override @SuppressWarnings("unchecked")
-    public Stream<T> stream() {
-        try {
-            return this.map.values()
-                    .stream()
-                    .map(value -> (T) value);
-        } catch (ClassCastException e) {
-            e.printStackTrace();
-            return null;
-        }
+  @Override
+  @SuppressWarnings("unchecked")
+  public Stream<T> stream() {
+    try {
+      return this.map.values()
+              .stream()
+              .map(value -> (T) value);
+    } catch (ClassCastException e) {
+      e.printStackTrace();
+      return null;
     }
+  }
 
-    @Override
-    public Map<String, Object> asMap() {
-        return this.map;
-    }
+  @Override
+  public Map<String, Object> asMap() {
+    return this.map;
+  }
 
 }
