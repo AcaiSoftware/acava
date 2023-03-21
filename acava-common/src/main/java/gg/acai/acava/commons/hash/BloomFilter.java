@@ -52,17 +52,13 @@ public final class BloomFilter<T> implements Predicate<T>, Closeable {
       });
   }
 
-  public boolean contains(T t) {
+  @Override
+  public boolean test(T t) {
     return Arrays.stream(hashes)
       .allMatch(hash -> {
         int hashValue = hash.apply(t);
         return bits[hashValue];
       });
-  }
-
-  @Override
-  public boolean test(T t) {
-    return contains(t);
   }
 
   @Override
