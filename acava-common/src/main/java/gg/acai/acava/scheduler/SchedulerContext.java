@@ -6,5 +6,5 @@ package gg.acai.acava.scheduler;
  * © Acava - All Rights Reserved
  */
 public enum SchedulerContext {
-    ASYNC, SYNC
+  ASYNC, SYNC
 }

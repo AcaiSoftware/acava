@@ -11,5 +11,5 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequiredAnnotation {
-    Class<? extends Annotation> value();
+  Class<? extends Annotation> value();
 }

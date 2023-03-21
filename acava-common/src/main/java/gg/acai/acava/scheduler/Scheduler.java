@@ -11,28 +11,28 @@ import java.util.function.Supplier;
  */
 public interface Scheduler extends Closeable {
 
-    /**
-     * Schedules a task to be executed on the scheduler.
-     *
-     * @param action The action to be executed.
-     * @return The scheduler.
-     */
-    Scheduler execute(Runnable action);
+  /**
+   * Schedules a task to be executed on the scheduler.
+   *
+   * @param action The action to be executed.
+   * @return The scheduler.
+   */
+  Scheduler execute(Runnable action);
 
-    /**
-     * Creates a new task.
-     *
-     * @return Returns a new task.
-     */
-    SchedulerTask createTask();
+  /**
+   * Creates a new task.
+   *
+   * @return Returns a new task.
+   */
+  SchedulerTask createTask();
 
-    /**
-     * Supplies a value on the scheduler.
-     *
-     * @param supplier The supplier.
-     * @param <T> The type of the value.
-     * @return Returns the type.
-     */
-    <T> T supply(Supplier<T> supplier);
+  /**
+   * Supplies a value on the scheduler.
+   *
+   * @param supplier The supplier.
+   * @param <T>      The type of the value.
+   * @return Returns the type.
+   */
+  <T> T supply(Supplier<T> supplier);
 
 }
