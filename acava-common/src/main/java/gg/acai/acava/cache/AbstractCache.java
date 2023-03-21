@@ -188,15 +188,15 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     return statistics;
   }
 
-  protected void lock() {
+  void lock() {
     if (useLock) lock.lock();
   }
 
-  protected void unlock() {
+  void unlock() {
     if (useLock) lock.unlock();
   }
 
-  protected void notify(CacheContext ctx, K key, V value) {
+  void notify(CacheContext ctx, K key, V value) {
     if (observer != null) observer.onUpdate(ctx, key, value);
   }
 }
