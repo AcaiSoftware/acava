@@ -11,83 +11,83 @@ import java.util.concurrent.TimeUnit;
  */
 public class SyncSchedulerTask implements SchedulerTask {
 
-    private final Timer timer;
-    private TimeUnit unit;
-    private long delay;
-    private Context context;
-    private Runnable action;
-    private boolean cancelled;
+  private final Timer timer;
+  private TimeUnit unit;
+  private long delay;
+  private Context context;
+  private Runnable action;
+  private boolean cancelled;
 
-    public SyncSchedulerTask(Timer timer) {
-        this.timer = timer;
-    }
+  public SyncSchedulerTask(Timer timer) {
+    this.timer = timer;
+  }
 
-    public SyncSchedulerTask() {
-        this(new Timer());
-    }
+  public SyncSchedulerTask() {
+    this(new Timer());
+  }
 
-    @Override
-    public SchedulerTask later(TimeUnit unit, long delay) {
-        this.unit = unit;
-        this.delay = delay;
-        this.context = Context.LATER;
-        return this;
-    }
+  @Override
+  public SchedulerTask later(TimeUnit unit, long delay) {
+    this.unit = unit;
+    this.delay = delay;
+    this.context = Context.LATER;
+    return this;
+  }
 
-    @Override
-    public SchedulerTask every(TimeUnit unit, long interval) {
-        this.unit = unit;
-        this.delay = interval;
-        this.context = Context.TIMER;
-        return null;
-    }
+  @Override
+  public SchedulerTask every(TimeUnit unit, long interval) {
+    this.unit = unit;
+    this.delay = interval;
+    this.context = Context.TIMER;
+    return null;
+  }
 
-    @Override
-    public SchedulerTask action(Runnable action) {
-        this.action = action;
-        return this;
-    }
+  @Override
+  public SchedulerTask action(Runnable action) {
+    this.action = action;
+    return this;
+  }
 
-    @Override
-    public SchedulerTask start() {
-        switch (context) {
-            case LATER:
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        action.run();
-                    }
-                }, unit.toMillis(delay));
-                break;
-            case TIMER:
-                timer.scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        action.run();
-                    }
-                }, 0, unit.toMillis(delay));
-                break;
-        }
-        return this;
+  @Override
+  public SchedulerTask start() {
+    switch (context) {
+      case LATER:
+        timer.schedule(new TimerTask() {
+          @Override
+          public void run() {
+            action.run();
+          }
+        }, unit.toMillis(delay));
+        break;
+      case TIMER:
+        timer.scheduleAtFixedRate(new TimerTask() {
+          @Override
+          public void run() {
+            action.run();
+          }
+        }, 0, unit.toMillis(delay));
+        break;
     }
+    return this;
+  }
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
+  @Override
+  public boolean isCancelled() {
+    return cancelled;
+  }
 
-    @Override
-    public void cancel() {
-        timer.cancel();
-        cancelled = true;
-    }
+  @Override
+  public void cancel() {
+    timer.cancel();
+    cancelled = true;
+  }
 
-    @Override
-    public void close() {
-        cancel();
-    }
+  @Override
+  public void close() {
+    cancel();
+  }
 
-    private enum Context {
-        LATER, TIMER
-    }
+  private enum Context {
+    LATER, TIMER
+  }
 }
