@@ -7,14 +7,14 @@ package gg.acai.acava.event;
  */
 public interface Cancellable {
 
-    /**
-     * @return Returns true if the event is cancelled.
-     */
-    boolean isCancelled();
+  /**
+   * @return Returns true if the event is cancelled.
+   */
+  boolean isCancelled();
 
-    /**
-     * Cancels the event.
-     */
-    void cancel();
+  /**
+   * Cancels the event.
+   */
+  void cancel();
 
 }
