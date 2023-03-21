@@ -16,57 +16,61 @@ import java.util.Collection;
 @Use("Use Graph#newBuilder() to create a new graph")
 public final class ImmutableGraph<N extends Number> extends AbstractGraph<N> implements Graph<N>, Immutable {
 
-    public ImmutableGraph(ImmutableList<N> nodes, int height, int limiter) {
-        super(nodes, height, limiter);
-    }
+  public ImmutableGraph(ImmutableList<N> nodes, int height, int limiter) {
+    super(nodes, height, limiter);
+  }
 
-    @Override @Deprecated
-    public Graph<N> addNode(N node) {
-        throw new UnsupportedOperationException("Cannot add nodes to an immutable graph");
-    }
+  @Override
+  @Deprecated
+  public Graph<N> addNode(N node) {
+    throw new UnsupportedOperationException("Cannot add nodes to an immutable graph");
+  }
 
-    @Override @Deprecated
-    public Graph<N> addNodes(Collection<N> nodes) {
-        throw new UnsupportedOperationException("Cannot add nodes to an immutable graph");
-    }
+  @Override
+  @Deprecated
+  public Graph<N> addNodes(Collection<N> nodes) {
+    throw new UnsupportedOperationException("Cannot add nodes to an immutable graph");
+  }
 
-    @Override @Deprecated
-    public Graph<N> addNodes(N... nodes) {
-        throw new UnsupportedOperationException("Cannot add nodes to an immutable graph");
-    }
+  @Override
+  @Deprecated
+  public Graph<N> addNodes(N... nodes) {
+    throw new UnsupportedOperationException("Cannot add nodes to an immutable graph");
+  }
 
-    @Override @Deprecated
-    public Graph<N> delegate(Graph<N> other) {
-        throw new UnsupportedOperationException("Cannot delegate immutable graph");
-    }
+  @Override
+  @Deprecated
+  public Graph<N> delegate(Graph<N> other) {
+    throw new UnsupportedOperationException("Cannot delegate immutable graph");
+  }
 
-    @Override
-    public GraphVisualizer<N> getVisualizer() {
-        return super.visualizer;
-    }
+  @Override
+  public GraphVisualizer<N> getVisualizer() {
+    return super.visualizer;
+  }
 
-    @Override
-    public int getHeight() {
-        return height;
-    }
+  @Override
+  public int getHeight() {
+    return height;
+  }
 
-    @Override
-    public int getLimiter() {
-        return limiter;
-    }
+  @Override
+  public int getLimiter() {
+    return limiter;
+  }
 
-    @Override
-    public N getNode(int index) {
-        return super.nodes.get(index);
-    }
+  @Override
+  public N getNode(int index) {
+    return super.nodes.get(index);
+  }
 
-    @Override
-    public int getNodes() {
-        return super.nodes.size();
-    }
+  @Override
+  public int getNodes() {
+    return super.nodes.size();
+  }
 
-    @Override
-    public void clear() {
-        throw new UnsupportedOperationException("Cannot clear an immutable graph");
-    }
+  @Override
+  public void clear() {
+    throw new UnsupportedOperationException("Cannot clear an immutable graph");
+  }
 }

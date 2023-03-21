@@ -12,27 +12,27 @@ import java.util.List;
  */
 public class ImmutableChart extends AbstractChart implements Immutable {
 
-    public ImmutableChart(ChartBuilder builder) {
-        super(builder);
-    }
+  public ImmutableChart(ChartBuilder builder) {
+    super(builder);
+  }
 
-    @Override
-    public Chart addNodes(int... data) {
-        throw new UnsupportedOperationException("This chart is immutable");
-    }
+  @Override
+  public Chart addNodes(int... data) {
+    throw new UnsupportedOperationException("This chart is immutable");
+  }
 
-    @Override
-    public Chart addNode(int data) {
-        throw new UnsupportedOperationException("This chart is immutable");
-    }
+  @Override
+  public Chart addNode(int data) {
+    throw new UnsupportedOperationException("This chart is immutable");
+  }
 
-    @Override
-    public Chart addNodes(List<Integer> data) {
-        throw new UnsupportedOperationException("This chart is immutable");
-    }
+  @Override
+  public Chart addNodes(List<Integer> data) {
+    throw new UnsupportedOperationException("This chart is immutable");
+  }
 
-    @Override
-    public List<Integer> nodes() {
-        return ImmutableList.copyOf(nodes);
-    }
+  @Override
+  public List<Integer> nodes() {
+    return ImmutableList.copyOf(nodes);
+  }
 }

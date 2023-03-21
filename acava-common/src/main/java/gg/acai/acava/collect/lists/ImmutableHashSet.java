@@ -16,45 +16,53 @@ import java.util.function.Predicate;
  */
 public class ImmutableHashSet<E> extends HashSet<E> implements Immutable {
 
-    public ImmutableHashSet(Collection<? extends E> collection) {
-        super(collection);
-    }
+  public ImmutableHashSet(Collection<? extends E> collection) {
+    super(collection);
+  }
 
-    public ImmutableHashSet() {}
+  public ImmutableHashSet() {
+  }
 
-    @Override @Deprecated
-    public boolean add(E e) {
-        throw new UnsupportedOperationException("Cannot add elements to an immutable set");
-    }
+  @Override
+  @Deprecated
+  public boolean add(E e) {
+    throw new UnsupportedOperationException("Cannot add elements to an immutable set");
+  }
 
-    @Override @Deprecated
-    public boolean remove(Object o) {
-        throw new UnsupportedOperationException("Cannot remove elements from an immutable set");
-    }
+  @Override
+  @Deprecated
+  public boolean remove(Object o) {
+    throw new UnsupportedOperationException("Cannot remove elements from an immutable set");
+  }
 
-    @Override @Deprecated
-    public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException("Cannot add elements to an immutable set");
-    }
+  @Override
+  @Deprecated
+  public boolean addAll(Collection<? extends E> c) {
+    throw new UnsupportedOperationException("Cannot add elements to an immutable set");
+  }
 
-    @Override @Deprecated
-    public boolean removeAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Cannot remove elements from an immutable set");
-    }
+  @Override
+  @Deprecated
+  public boolean removeAll(Collection<?> c) {
+    throw new UnsupportedOperationException("Cannot remove elements from an immutable set");
+  }
 
-    @Override @Deprecated
-    public boolean retainAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Cannot remove elements from an immutable set");
-    }
+  @Override
+  @Deprecated
+  public boolean retainAll(Collection<?> c) {
+    throw new UnsupportedOperationException("Cannot remove elements from an immutable set");
+  }
 
-    @Override @Deprecated
-    public boolean removeIf(Predicate<? super E> filter) {
-        throw new UnsupportedOperationException("Cannot remove elements from an immutable set");
-    }
+  @Override
+  @Deprecated
+  public boolean removeIf(Predicate<? super E> filter) {
+    throw new UnsupportedOperationException("Cannot remove elements from an immutable set");
+  }
 
-    @Override @Deprecated
-    public void clear() {
-        throw new UnsupportedOperationException("Cannot remove elements from an immutable set");
-    }
+  @Override
+  @Deprecated
+  public void clear() {
+    throw new UnsupportedOperationException("Cannot remove elements from an immutable set");
+  }
 
 }
