@@ -7,18 +7,18 @@ package gg.acai.acava.collect.meta;
  */
 public interface MetadataEntry<K, V> {
 
-    /**
-     * Gets the key of the entry.
-     *
-     * @return Returns the key of the entry
-     */
-    K key();
+  /**
+   * Gets the key of the entry.
+   *
+   * @return Returns the key of the entry
+   */
+  K key();
 
-    /**
-     * Gets the value of the entry.
-     *
-     * @return Returns the value of the entry
-     */
-    V value();
+  /**
+   * Gets the value of the entry.
+   *
+   * @return Returns the value of the entry
+   */
+  V value();
 
 }

@@ -9,12 +9,12 @@ import java.awt.Color;
  */
 public interface Logger {
 
-    void log(String... messages);
+  void log(String... messages);
 
-    void log(Color color, String... messages);
+  void log(Color color, String... messages);
 
-    void logMultiLine(String... messages);
+  void logMultiLine(String... messages);
 
-    void logMultiLine(Color color, String... messages);
+  void logMultiLine(Color color, String... messages);
 
 }

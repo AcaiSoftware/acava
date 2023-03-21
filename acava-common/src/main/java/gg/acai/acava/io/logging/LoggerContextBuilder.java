@@ -7,24 +7,24 @@ package gg.acai.acava.io.logging;
  */
 public final class LoggerContextBuilder {
 
-    private String prefix = "";
-    private String defaultColor = "";
+  private String prefix = "";
+  private String defaultColor = "";
 
-    public LoggerContextBuilder prefix(String prefix) {
-        this.prefix = prefix;
-        return this;
-    }
+  public LoggerContextBuilder prefix(String prefix) {
+    this.prefix = prefix;
+    return this;
+  }
 
-    public LoggerContextBuilder defaultColor(String defaultColor) {
-        this.defaultColor = defaultColor;
-        return this;
-    }
+  public LoggerContextBuilder defaultColor(String defaultColor) {
+    this.defaultColor = defaultColor;
+    return this;
+  }
 
-    public Logger build() {
-        if (!prefix.startsWith("[")) prefix = "[" + prefix;
-        if (!prefix.endsWith("]")) prefix = prefix + "]";
+  public Logger build() {
+    if (!prefix.startsWith("[")) prefix = "[" + prefix;
+    if (!prefix.endsWith("]")) prefix = prefix + "]";
 
-        return new StandardLogger(prefix, defaultColor);
-    }
+    return new StandardLogger(prefix, defaultColor);
+  }
 
 }
