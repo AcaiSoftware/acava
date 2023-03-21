@@ -11,24 +11,26 @@ import java.util.concurrent.TimeoutException;
  */
 public interface AsyncPlaceholder<T> {
 
-    /**
-     * Executes the callback when the placeholder is completed
-     * @param callback The callback
-     * @return Returns the placeholder
-     */
-    AsyncPlaceholder<T> whenComplete(Callback<T> callback);
+  /**
+   * Executes the callback when the placeholder is completed
+   *
+   * @param callback The callback
+   * @return Returns the placeholder
+   */
+  AsyncPlaceholder<T> whenComplete(Callback<T> callback);
 
-    /**
-     * Gets the value
-     * @return The value
-     */
-    T get();
+  /**
+   * Gets the value
+   *
+   * @return The value
+   */
+  T get();
 
-    /**
-     * Joins the placeholder until it is completed
-     *
-     * @return The value
-     */
-    T join() throws TimeoutException;
+  /**
+   * Joins the placeholder until it is completed
+   *
+   * @return The value
+   */
+  T join() throws TimeoutException;
 
 }
