@@ -16,72 +16,72 @@ import java.util.Set;
  */
 public final class CompositeEventBus implements EventBus {
 
-    private final Map<Class<? extends EventListener>, EventListener> compositeSubscriptions;
-    private final Map<Class<? extends Event>, Set<Action<? super Event>>> directSubscriptions;
+  private final Map<Class<? extends EventListener>, EventListener> compositeSubscriptions;
+  private final Map<Class<? extends Event>, Set<Action<? super Event>>> directSubscriptions;
 
-    public CompositeEventBus() {
-        this.compositeSubscriptions = new HashMap<>();
-        this.directSubscriptions = new HashMap<>();
+  public CompositeEventBus() {
+    this.compositeSubscriptions = new HashMap<>();
+    this.directSubscriptions = new HashMap<>();
+  }
+
+  @Override
+  public EventBus post(Scheduler scheduler, Event event) {
+    return scheduler.supply(() -> post(event));
+  }
+
+  @Override
+  public EventBus post(Event event) {
+    compositeSubscriptions.values().forEach(listener -> listener.onEvent(event));
+
+    if (directSubscriptions.containsKey(event.getClass())) {
+      Class<? extends Event> clazz = event.getClass();
+      Set<Action<? super Event>> actions = directSubscriptions.get(clazz);
+      actions.forEach(action -> action.accept(event));
     }
+    return this;
+  }
 
-    @Override
-    public EventBus post(Scheduler scheduler, Event event) {
-        return scheduler.supply(() -> post(event));
+  @Override
+  public EventBus postAssigned(Scheduler scheduler, Event event, EventListener listener) {
+    scheduler.execute(() -> listener.onEvent(event));
+    return this;
+  }
+
+  @Override
+  public EventBus listenDirect(Class<? extends Event> rawClass, Action<Event> action) {
+    directSubscriptions.computeIfAbsent(rawClass, klass -> new HashSet<>()).add(action);
+    return this;
+  }
+
+  @Override
+  public EventBus register(Class<? extends EventListener> listenerClass) {
+    try {
+      this.compositeSubscriptions.put(listenerClass, listenerClass.newInstance());
+    } catch (InstantiationException | IllegalAccessException e) {
+      e.printStackTrace();
     }
+    return this;
+  }
 
-    @Override
-    public EventBus post(Event event) {
-        compositeSubscriptions.values().forEach(listener -> listener.onEvent(event));
+  @Override
+  public EventBus register(EventListener listener) {
+    this.compositeSubscriptions.put(listener.getClass(), listener);
+    return this;
+  }
 
-        if (directSubscriptions.containsKey(event.getClass())) {
-            Class<? extends Event> clazz = event.getClass();
-            Set<Action<? super Event>> actions = directSubscriptions.get(clazz);
-            actions.forEach(action -> action.accept(event));
-        }
-        return this;
-    }
+  @Override
+  public EventBus unregister(Class<? extends EventListener> listenerClass) {
+    this.compositeSubscriptions.remove(listenerClass);
+    return this;
+  }
 
-    @Override
-    public EventBus postAssigned(Scheduler scheduler, Event event, EventListener listener) {
-        scheduler.execute(() -> listener.onEvent(event));
-        return this;
-    }
+  @Override
+  public EventListener get(Class<? extends EventListener> listenerClass) {
+    return this.compositeSubscriptions.get(listenerClass);
+  }
 
-    @Override
-    public EventBus listenDirect(Class<? extends Event> rawClass, Action<Event> action) {
-        directSubscriptions.computeIfAbsent(rawClass, klass -> new HashSet<>()).add(action);
-        return this;
-    }
-
-    @Override
-    public EventBus register(Class<? extends EventListener> listenerClass) {
-        try {
-            this.compositeSubscriptions.put(listenerClass, listenerClass.newInstance());
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return this;
-    }
-
-    @Override
-    public EventBus register(EventListener listener) {
-        this.compositeSubscriptions.put(listener.getClass(), listener);
-        return this;
-    }
-
-    @Override
-    public EventBus unregister(Class<? extends EventListener> listenerClass) {
-        this.compositeSubscriptions.remove(listenerClass);
-        return this;
-    }
-
-    @Override
-    public EventListener get(Class<? extends EventListener> listenerClass) {
-        return this.compositeSubscriptions.get(listenerClass);
-    }
-
-    @Override
-    public Map<Class<? extends EventListener>, EventListener> asMap() {
-        return this.compositeSubscriptions;
-    }
+  @Override
+  public Map<Class<? extends EventListener>, EventListener> asMap() {
+    return this.compositeSubscriptions;
+  }
 }
