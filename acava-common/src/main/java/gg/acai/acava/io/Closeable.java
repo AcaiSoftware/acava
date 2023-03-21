@@ -10,9 +10,9 @@ package gg.acai.acava.io;
 @FunctionalInterface
 public interface Closeable {
 
-    /**
-     * Closes the closeable.
-     */
-    void close();
+  /**
+   * Closes the closeable.
+   */
+  void close();
 
 }
