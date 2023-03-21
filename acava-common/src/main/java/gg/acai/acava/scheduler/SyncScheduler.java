@@ -9,23 +9,23 @@ import java.util.function.Supplier;
  */
 public class SyncScheduler implements Scheduler {
 
-    @Override
-    public Scheduler execute(Runnable action) {
-        action.run();
-        return this;
-    }
+  @Override
+  public Scheduler execute(Runnable action) {
+    action.run();
+    return this;
+  }
 
-    @Override
-    public SchedulerTask createTask() {
-        return new SyncSchedulerTask();
-    }
+  @Override
+  public SchedulerTask createTask() {
+    return new SyncSchedulerTask();
+  }
 
-    @Override
-    public <T> T supply(Supplier<T> supplier) {
-        return supplier.get();
-    }
+  @Override
+  public <T> T supply(Supplier<T> supplier) {
+    return supplier.get();
+  }
 
-    @Override
-    public void close() {
-    }
+  @Override
+  public void close() {
+  }
 }
