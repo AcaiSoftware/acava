@@ -11,32 +11,33 @@ import gg.acai.acava.collect.Mutable;
  */
 public class MutablePair<L, R> implements Pairs<L, R>, Mutable {
 
-    private L left;
-    private R right;
+  private L left;
+  private R right;
 
-    public MutablePair(L left, R right) {
-        this.left = left;
-        this.right = right;
-    }
+  public MutablePair(L left, R right) {
+    this.left = left;
+    this.right = right;
+  }
 
-    public MutablePair() {}
+  public MutablePair() {
+  }
 
-    @Override
-    public L left() {
-        return left;
-    }
+  @Override
+  public L left() {
+    return left;
+  }
 
-    @Override
-    public R right() {
-        return right;
-    }
+  @Override
+  public R right() {
+    return right;
+  }
 
-    public void setLeft(L left) {
-        this.left = left;
-    }
+  public void setLeft(L left) {
+    this.left = left;
+  }
 
-    public void setRight(R right) {
-        this.right = right;
-    }
+  public void setRight(R right) {
+    this.right = right;
+  }
 
 }

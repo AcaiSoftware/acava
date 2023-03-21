@@ -9,7 +9,7 @@ import gg.acai.acava.collect.Mutable;
  */
 public class MutableChart extends AbstractChart implements Mutable {
 
-    public MutableChart(ChartBuilder builder) {
-        super(builder);
-    }
+  public MutableChart(ChartBuilder builder) {
+    super(builder);
+  }
 }

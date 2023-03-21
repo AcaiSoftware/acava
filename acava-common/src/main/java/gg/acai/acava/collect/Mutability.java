@@ -8,13 +8,13 @@ package gg.acai.acava.collect;
  * © Acava - All Rights Reserved
  */
 public enum Mutability {
-    /**
-     * The collection is mutable.
-     */
-    MUTABLE,
+  /**
+   * The collection is mutable.
+   */
+  MUTABLE,
 
-    /**
-     * The collection is immutable.
-     */
-    IMMUTABLE
+  /**
+   * The collection is immutable.
+   */
+  IMMUTABLE
 }
