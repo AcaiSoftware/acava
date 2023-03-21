@@ -11,71 +11,71 @@ import java.util.concurrent.TimeUnit;
  */
 public class AsyncSchedulerTask implements SchedulerTask {
 
-    private final ScheduledExecutorService executorService;
-    private Runnable runnable;
-    private TimeUnit unit;
-    private long interval;
-    private Context context;
+  private final ScheduledExecutorService executorService;
+  private Runnable runnable;
+  private TimeUnit unit;
+  private long interval;
+  private Context context;
 
-    public AsyncSchedulerTask(ScheduledExecutorService executorService) {
-        this.executorService = executorService;
-    }
+  public AsyncSchedulerTask(ScheduledExecutorService executorService) {
+    this.executorService = executorService;
+  }
 
-    public AsyncSchedulerTask() {
-        this(Executors.newScheduledThreadPool(1));
-    }
+  public AsyncSchedulerTask() {
+    this(Executors.newScheduledThreadPool(1));
+  }
 
-    @Override
-    public SchedulerTask later(TimeUnit unit, long delay) {
-        this.context = Context.LATER;
-        this.unit = unit;
-        this.interval = delay;
-        return this;
-    }
+  @Override
+  public SchedulerTask later(TimeUnit unit, long delay) {
+    this.context = Context.LATER;
+    this.unit = unit;
+    this.interval = delay;
+    return this;
+  }
 
-    @Override
-    public SchedulerTask every(TimeUnit unit, long interval) {
-        this.context = Context.TIMER;
-        this.unit = unit;
-        this.interval = interval;
-        return this;
-    }
+  @Override
+  public SchedulerTask every(TimeUnit unit, long interval) {
+    this.context = Context.TIMER;
+    this.unit = unit;
+    this.interval = interval;
+    return this;
+  }
 
-    @Override
-    public SchedulerTask action(Runnable action) {
-        this.runnable = action;
-        return this;
-    }
+  @Override
+  public SchedulerTask action(Runnable action) {
+    this.runnable = action;
+    return this;
+  }
 
-    @Override
-    public SchedulerTask start() {
-        switch (context) {
-            case TIMER:
-                executorService.scheduleAtFixedRate(runnable, 0, interval, unit);
-                break;
-            case LATER:
-                executorService.schedule(runnable, interval, unit);
-                break;
-        }
-        return this;
+  @Override
+  public SchedulerTask start() {
+    switch (context) {
+      case TIMER:
+        executorService.scheduleAtFixedRate(runnable, 0, interval, unit);
+        break;
+      case LATER:
+        executorService.schedule(runnable, interval, unit);
+        break;
     }
+    return this;
+  }
 
-    @Override
-    public boolean isCancelled() {
-        return executorService.isShutdown();
-    }
+  @Override
+  public boolean isCancelled() {
+    return executorService.isShutdown();
+  }
 
-    @Override
-    public void cancel() {
-        executorService.shutdown();
-    }
+  @Override
+  public void cancel() {
+    executorService.shutdown();
+  }
 
-    @Override
-    public void close() {
-        cancel();
-    }
+  @Override
+  public void close() {
+    cancel();
+  }
 
-    private enum Context {
-        LATER, TIMER
-    }
+  private enum Context {
+    LATER, TIMER
+  }
 }

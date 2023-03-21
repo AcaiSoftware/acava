@@ -8,11 +8,11 @@ package gg.acai.acava.io;
 @FunctionalInterface
 public interface Callback<T> {
 
-    /**
-     * Accepts the callback with the given parameter.
-     *
-     * @param t Callback parameter
-     */
-    void onCallback(T t);
+  /**
+   * Accepts the callback with the given parameter.
+   *
+   * @param t Callback parameter
+   */
+  void onCallback(T t);
 
 }
