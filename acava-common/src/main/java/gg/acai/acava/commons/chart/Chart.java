@@ -9,20 +9,20 @@ import java.util.List;
  */
 public interface Chart {
 
-    static ChartBuilder builder() {
-        return new ChartBuilder();
-    }
+  static ChartBuilder builder() {
+    return new ChartBuilder();
+  }
 
-    Chart addNode(int data);
+  Chart addNode(int data);
 
-    Chart addNodes(List<Integer> data);
+  Chart addNodes(List<Integer> data);
 
-    Chart addNodes(int... data);
+  Chart addNodes(int... data);
 
-    List<Integer> nodes();
+  List<Integer> nodes();
 
-    String buildUrl();
+  String buildUrl();
 
-    void save();
+  void save();
 
 }
