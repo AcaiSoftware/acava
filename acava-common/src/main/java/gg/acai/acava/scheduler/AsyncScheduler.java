@@ -12,37 +12,37 @@ import java.util.function.Supplier;
  */
 public class AsyncScheduler implements Scheduler {
 
-    private static final ExecutorService CACHED_EXECUTOR = Executors.newCachedThreadPool();
-    private final ExecutorService executor;
+  private static final ExecutorService CACHED_EXECUTOR = Executors.newCachedThreadPool();
+  private final ExecutorService executor;
 
-    public AsyncScheduler(ExecutorService executor) {
-        this.executor = executor;
-    }
+  public AsyncScheduler(ExecutorService executor) {
+    this.executor = executor;
+  }
 
-    public AsyncScheduler() {
-        this(null);
-    }
+  public AsyncScheduler() {
+    this(null);
+  }
 
-    @Override
-    public Scheduler execute(Runnable action) {
-        CompletableFuture.runAsync(action, executor == null ? CACHED_EXECUTOR : executor);
-        return this;
-    }
+  @Override
+  public Scheduler execute(Runnable action) {
+    CompletableFuture.runAsync(action, executor == null ? CACHED_EXECUTOR : executor);
+    return this;
+  }
 
-    @Override
-    public SchedulerTask createTask() {
-        return new AsyncSchedulerTask();
-    }
+  @Override
+  public SchedulerTask createTask() {
+    return new AsyncSchedulerTask();
+  }
 
-    @Override
-    public <T> T supply(Supplier<T> supplier) {
-        return CompletableFuture.supplyAsync(supplier, executor == null ? CACHED_EXECUTOR : executor).join();
-    }
+  @Override
+  public <T> T supply(Supplier<T> supplier) {
+    return CompletableFuture.supplyAsync(supplier, executor == null ? CACHED_EXECUTOR : executor).join();
+  }
 
-    @Override
-    public void close() {
-        if (executor != null) {
-            executor.shutdown();
-        }
+  @Override
+  public void close() {
+    if (executor != null) {
+      executor.shutdown();
     }
+  }
 }
