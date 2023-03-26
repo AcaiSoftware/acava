@@ -27,8 +27,8 @@ public final class LazyWriteExpiryCache<K, V> extends AbstractCache<K, V> {
   public void put(K key, V value) {
     try {
       lock();
+      long now = System.currentTimeMillis();
       for (Map.Entry<K, Long> entry : writes.entrySet()) {
-        long now = System.currentTimeMillis();
         K k = entry.getKey();
         if (now - entry.getValue() >= unit.toMillis(expireAfterWrite)) {
           synchronized (writes) {
@@ -37,7 +37,7 @@ public final class LazyWriteExpiryCache<K, V> extends AbstractCache<K, V> {
           }
         }
       }
-      writes.put(key, System.currentTimeMillis());
+      writes.put(key, now);
       super.put(key, value);
     } finally {
       unlock();
@@ -48,8 +48,8 @@ public final class LazyWriteExpiryCache<K, V> extends AbstractCache<K, V> {
   public Optional<V> get(K key) {
     try {
       lock();
+      long now = System.currentTimeMillis();
       for (Map.Entry<K, Long> entry : writes.entrySet()) {
-        long now = System.currentTimeMillis();
         K k = entry.getKey();
         if (now - entry.getValue() >= unit.toMillis(expireAfterWrite)) {
           synchronized (writes) {
