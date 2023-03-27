@@ -1,12 +1,11 @@
 package gg.acai.acava;
 
-import gg.acai.acava.collect.lists.ImmutableHashSet;
-
 import java.io.IOException;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -56,7 +55,7 @@ public final class ClassLoader {
       e.printStackTrace();
     }
 
-    return new ImmutableHashSet<>(classes);
+    return Collections.unmodifiableCollection(classes);
   }
 
 }
