@@ -67,6 +67,11 @@ public class CacheBuilder<K, V> {
     return this;
   }
 
+  public CacheBuilder<K, V> weak() {
+    this.cacheValueType = CacheValueType.WEAK;
+    return this;
+  }
+
   public <U, O> CacheBuilder<K, V> withObserver(CacheObserver<U, O> observer) {
     this.observer = observer;
     return this;
