@@ -62,7 +62,7 @@ public class CacheBuilder<K, V> {
     return this;
   }
 
-  public CacheBuilder<K, V> withReferenceType(CacheValueType cacheValueType) {
+  public CacheBuilder<K, V> withValueType(CacheValueType cacheValueType) {
     this.cacheValueType = cacheValueType;
     return this;
   }
