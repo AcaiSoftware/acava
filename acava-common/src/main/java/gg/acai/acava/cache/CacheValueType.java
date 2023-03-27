@@ -10,7 +10,7 @@ import gg.acai.acava.cache.element.WeakCacheNode;
  * @since 19.03.2023 14:43
  * © Acava - All Rights Reserved
  */
-public enum CacheReferenceType {
+public enum CacheValueType {
   SOFT,
   WEAK,
   PHANTOM,

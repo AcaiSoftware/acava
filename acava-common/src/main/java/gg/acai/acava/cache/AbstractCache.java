@@ -24,7 +24,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   protected final TimeUnit unit;
   protected final CacheBootstrap bootstrap;
   protected final ParametricCacheBootstrap<?> pcb;
-  protected final CacheReferenceType cacheReferenceType;
+  protected final CacheValueType cacheValueType;
   protected final CacheStatistics statistics = new CacheStatistics();
   protected final CacheObserver<K, V> observer;
 
@@ -33,8 +33,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   public static class DEFAULT_CACHE<K, V> extends AbstractCache<K, V> {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public DEFAULT_CACHE(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap,
-      ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock, CacheObserver<K, V> observer) {
-        super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
+                         ParametricCacheBootstrap<?> pcb, CacheValueType cacheValueType, Lock lock, CacheObserver<K, V> observer) {
+        super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheValueType, lock, observer);
     }
 
     @Override
@@ -46,14 +46,14 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  public AbstractCache(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap, ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock, CacheObserver<K, V> observer) {
+  public AbstractCache(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap, ParametricCacheBootstrap<?> pcb, CacheValueType cacheValueType, Lock lock, CacheObserver<K, V> observer) {
     this.lock = lock;
     this.useLock = lock != null;
     this.expireAfterWrite = expireAfterWrite;
     this.unit = unit;
     this.bootstrap = bootstrap;
     this.pcb = pcb;
-    this.cacheReferenceType = cacheReferenceType;
+    this.cacheValueType = cacheValueType;
     this.observer = observer;
     switch (type) {
       case DEFAULT:
@@ -78,7 +78,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   public void put(K key, V value) {
     try {
       lock();
-      CacheNode<V> reference = cacheReferenceType.createWith(value);
+      CacheNode<V> reference = cacheValueType.createWith(value);
       cache.put(key, reference);
       notify(CacheContext.PUT, key, value);
       statistics.use();

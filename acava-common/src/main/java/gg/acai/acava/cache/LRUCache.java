@@ -14,8 +14,8 @@ public class LRUCache<K, V> extends AbstractCache<K, V> {
   private final int maxSize;
 
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  public LRUCache(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap, ParametricCacheBootstrap<?> pcb, CacheReferenceType cacheReferenceType, Lock lock, CacheObserver<K, V> observer) {
-    super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
+  public LRUCache(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap, ParametricCacheBootstrap<?> pcb, CacheValueType cacheValueType, Lock lock, CacheObserver<K, V> observer) {
+    super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheValueType, lock, observer);
     this.maxSize = size.orElseThrow(() -> new IllegalArgumentException("Size must be set for LRUCache"));
   }
 

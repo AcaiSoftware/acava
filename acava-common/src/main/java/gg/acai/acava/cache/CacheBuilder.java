@@ -21,7 +21,7 @@ public class CacheBuilder<K, V> {
   private TimeUnit unit;
   private CacheBootstrap bootstrap;
   private ParametricCacheBootstrap<?> pcb;
-  private CacheReferenceType cacheReferenceType = CacheReferenceType.DEFAULT;
+  private CacheValueType cacheValueType = CacheValueType.DEFAULT;
   private Lock lock;
   private CacheObserver<?, ?> observer;
 
@@ -62,8 +62,8 @@ public class CacheBuilder<K, V> {
     return this;
   }
 
-  public CacheBuilder<K, V> withReferenceType(CacheReferenceType cacheReferenceType) {
-    this.cacheReferenceType = cacheReferenceType;
+  public CacheBuilder<K, V> withReferenceType(CacheValueType cacheValueType) {
+    this.cacheValueType = cacheValueType;
     return this;
   }
 
@@ -85,15 +85,15 @@ public class CacheBuilder<K, V> {
     }
     if (expireAfterWrite != -1L) {
       Objects.requireNonNull(unit, "TimeUnit must be set if expireAfterWrite is set");
-      return new LazyWriteExpiryCache<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
+      return new LazyWriteExpiryCache<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheValueType, lock, observer);
     }
     switch (type) {
       case LRU:
-        return new LRUCache<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
+        return new LRUCache<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheValueType, lock, observer);
       case REMOVAL_AFTER_READ:
-        return new RemovalAfterReadCache<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
+        return new RemovalAfterReadCache<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheValueType, lock, observer);
       default:
-        return new AbstractCache.DEFAULT_CACHE<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheReferenceType, lock, observer);
+        return new AbstractCache.DEFAULT_CACHE<>(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheValueType, lock, observer);
     }
   }
 
