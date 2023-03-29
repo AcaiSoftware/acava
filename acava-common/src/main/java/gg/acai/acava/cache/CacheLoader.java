@@ -58,7 +58,6 @@ public class CacheLoader implements Closeable {
     synchronized (bootstraps) {
       for (CacheBootstrap bootstrapper : bootstraps) {
         bootstrapper.load();
-        bootstraps.remove(bootstrapper);
       }
     }
   }
@@ -68,7 +67,6 @@ public class CacheLoader implements Closeable {
       for (CacheBootstrap bootstrapper : bootstraps) {
         if (bootstrapper.getClass().equals(clazz)) {
           bootstrapper.load();
-          bootstraps.remove(bootstrapper);
           break;
         }
       }
