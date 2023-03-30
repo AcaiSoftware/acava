@@ -7,7 +7,7 @@ package gg.acai.acava.io;
  * @since 05.12.2022 18:58
  * © Acava - All Rights Reserved
  */
-public final class Reference<V> {
+public class Reference<V> {
 
   /**
    * The value of the reference.
