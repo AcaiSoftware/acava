@@ -12,14 +12,14 @@ import java.util.function.Predicate;
  */
 public class BufferedFilterableReader implements FilterableReader {
   @Override
-  public String find(Reader reader, Predicate<String> matcher) throws RuntimeException {
-    String line;
+  public String find(Reader reader, Predicate<String> matcher) {
+    String line = null;
     try (BufferedReader bufferedReader = new BufferedReader(reader)) {
       while ((line = bufferedReader.readLine()) != null)
         if (matcher.test(line))
           break;
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
     return line;
   }
