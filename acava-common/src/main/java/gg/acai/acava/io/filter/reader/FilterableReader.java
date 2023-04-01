@@ -1,6 +1,7 @@
 package gg.acai.acava.io.filter.reader;
 
 import java.io.Reader;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
@@ -10,5 +11,14 @@ import java.util.function.Predicate;
  */
 @FunctionalInterface
 public interface FilterableReader {
+
   String find(Reader reader, Predicate<String> matcher);
+
+  default Optional<String> findOptionally(Reader reader, Predicate<String> matcher) {
+    try {
+      return Optional.ofNullable(find(reader, matcher));
+    } catch (Exception e) {
+      return Optional.empty();
+    }
+  }
 }
