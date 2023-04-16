@@ -20,7 +20,7 @@
         <dependency> <!-- Common -->
             <groupId>gg.acai</groupId>
             <artifactId>acava-common</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency> <!-- JDA -->
