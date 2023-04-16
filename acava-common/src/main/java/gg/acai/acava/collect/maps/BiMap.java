@@ -142,24 +142,19 @@ public interface BiMap<K, V, S> {
   }
 
   /**
-   * Performs the specified action for each entry in this map until all entries have been processed or the action throws an exception.
+   * Performs the specified action for each entry in this map until all entries have been processed.
    *
    * @param action The action to be performed for each entry
    */
-  default void forEach(BiConsumer<? super K, ? super Pairs<V, S>> action) {
+  default void forEach(TrioConsumer<? super K, ? super V, ? super S> action) {
     Objects.requireNonNull(action);
     for (Map.Entry<K, Pairs<V, S>> entry : entrySet()) {
-      K k;
-      Pairs<V, S> v;
-      try {
-        k = entry.getKey();
-        v = entry.getValue();
-      } catch (IllegalStateException ise) {
-        // this usually means the entry is no longer in the map.
-        throw new ConcurrentModificationException(ise);
-      }
-      action.accept(k, v);
+      action.accept(entry.getKey(), entry.getValue().left(), entry.getValue().right());
     }
+  }
+
+  interface TrioConsumer<K, V, S> {
+    void accept(K key, V value, S secondValue);
   }
 
   /**
