@@ -1,13 +1,12 @@
 package gg.acai.acava.collect.maps;
 
 import gg.acai.acava.collect.pairs.Pairs;
+import gg.acai.acava.function.TripleConsumer;
 
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -146,15 +145,11 @@ public interface BiMap<K, V, S> {
    *
    * @param action The action to be performed for each entry
    */
-  default void forEach(TrioConsumer<? super K, ? super V, ? super S> action) {
+  default void forEach(TripleConsumer<? super K, ? super V, ? super S> action) {
     Objects.requireNonNull(action);
     for (Map.Entry<K, Pairs<V, S>> entry : entrySet()) {
       action.accept(entry.getKey(), entry.getValue().left(), entry.getValue().right());
     }
-  }
-
-  interface TrioConsumer<K, V, S> {
-    void accept(K key, V value, S secondValue);
   }
 
   /**
