@@ -32,8 +32,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   public static class DEFAULT_CACHE<K, V> extends AbstractCache<K, V> {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public DEFAULT_CACHE(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap,
-                         ParametricCacheBootstrap<?> pcb, CacheValueType cacheValueType, Lock lock, CacheObserver<K, V> observer) {
+    public DEFAULT_CACHE(CacheType type, Optional<Integer> size, long expireAfterWrite, TimeUnit unit, CacheBootstrap bootstrap, ParametricCacheBootstrap<?> pcb, CacheValueType cacheValueType, Lock lock, CacheObserver<K, V> observer) {
         super(type, size, expireAfterWrite, unit, bootstrap, pcb, cacheValueType, lock, observer);
     }
 
