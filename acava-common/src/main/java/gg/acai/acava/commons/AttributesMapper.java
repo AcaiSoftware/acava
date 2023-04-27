@@ -51,4 +51,24 @@ public class AttributesMapper implements Attributes {
   public void close() {
     attributes.clear();
   }
+
+  @Override
+  public String toString() {
+    return "AttributesMapper{" +
+        "attributes=" + attributes +
+        '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof AttributesMapper)) return false;
+    AttributesMapper that = (AttributesMapper) o;
+    return attributes.equals(that.attributes);
+  }
+
+  @Override
+  public int hashCode() {
+    return attributes.hashCode();
+  }
 }
