@@ -83,4 +83,11 @@ public interface Attributes extends Closeable {
   @Override
   void close();
 
+  /**
+   * Copies this Attributes instance.
+   *
+   * @return Returns a copy of this Attributes instance.
+   */
+  Attributes copy();
+
 }

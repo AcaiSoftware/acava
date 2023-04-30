@@ -53,6 +53,11 @@ public class AttributesMapper implements Attributes {
   }
 
   @Override
+  public Attributes copy() {
+    return new AttributesMapper(new HashMap<>(attributes));
+  }
+
+  @Override
   public String toString() {
     return "AttributesMapper{" +
         "attributes=" + attributes +
