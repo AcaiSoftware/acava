@@ -3,13 +3,13 @@ package gg.acai.acava.collect.pairs;
 import gg.acai.acava.collect.Mutable;
 
 /**
- * Mutable implementation of {@link Pairs}.
+ * Mutable implementation of {@link Pair}.
  *
  * @author Clouke
  * @since 02.12.2022 18:15
  * © Acava - All Rights Reserved
  */
-public class MutablePair<L, R> implements Pairs<L, R>, Mutable {
+public class MutablePair<L, R> implements Pair<L, R>, Mutable {
 
   private L left;
   private R right;

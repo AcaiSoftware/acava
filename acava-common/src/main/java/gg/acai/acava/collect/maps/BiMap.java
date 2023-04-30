@@ -1,6 +1,6 @@
 package gg.acai.acava.collect.maps;
 
-import gg.acai.acava.collect.pairs.Pairs;
+import gg.acai.acava.collect.pairs.Pair;
 import gg.acai.acava.function.TripleConsumer;
 
 import java.util.Collection;
@@ -61,7 +61,7 @@ public interface BiMap<K, V, S> {
    * @param key The key to get the pair from
    * @return Returns the pair of V and S from the specified key
    */
-  Pairs<V, S> get(K key);
+  Pair<V, S> get(K key);
 
   /**
    * Gets the value from the specified key
@@ -69,7 +69,7 @@ public interface BiMap<K, V, S> {
    * @param key The key to get the value from
    * @return Returns the value from the specified key
    */
-  Pairs<V, S> put(K key, V value, S secondValue);
+  Pair<V, S> put(K key, V value, S secondValue);
 
   /**
    * Removes the pair of V and S from the specified key
@@ -77,7 +77,7 @@ public interface BiMap<K, V, S> {
    * @param key The key to remove the pair from
    * @return Returns the pair of V and S from the specified key
    */
-  Pairs<V, S> remove(K key);
+  Pair<V, S> remove(K key);
 
   /**
    * Puts all the entries from the specified map into this map
@@ -103,7 +103,7 @@ public interface BiMap<K, V, S> {
    *
    * @return Returns the pair of V and S from the specified key
    */
-  default Pairs<V, S> put(K key, Pairs<V, S> value) {
+  default Pair<V, S> put(K key, Pair<V, S> value) {
     return put(key, value.left(), value.right());
   }
 
@@ -119,14 +119,14 @@ public interface BiMap<K, V, S> {
    *
    * @return Returns a collection of all the pairs in this map
    */
-  Collection<Pairs<V, S>> values();
+  Collection<Pair<V, S>> values();
 
   /**
    * Gets a set of all the entries in this map
    *
    * @return Returns a set of all the entries in this map
    */
-  Set<Map.Entry<K, Pairs<V, S>>> entrySet();
+  Set<Map.Entry<K, Pair<V, S>>> entrySet();
 
   /**
    * Gets the value from the specified key or the default value if the key is not present
@@ -135,9 +135,9 @@ public interface BiMap<K, V, S> {
    * @param defaultValue The default value to return if the key is not present
    * @return Returns the value from the specified key or the default value if the key is not present
    */
-  default Pairs<V, S> getOrDefault(K key, Pairs<V, S> defaultValue) {
-    Pairs<V, S> pairs = get(key);
-    return pairs == null ? defaultValue : pairs;
+  default Pair<V, S> getOrDefault(K key, Pair<V, S> defaultValue) {
+    Pair<V, S> pair = get(key);
+    return pair == null ? defaultValue : pair;
   }
 
   /**
@@ -147,7 +147,7 @@ public interface BiMap<K, V, S> {
    */
   default void forEach(TripleConsumer<? super K, ? super V, ? super S> action) {
     Objects.requireNonNull(action);
-    for (Map.Entry<K, Pairs<V, S>> entry : entrySet()) {
+    for (Map.Entry<K, Pair<V, S>> entry : entrySet()) {
       action.accept(entry.getKey(), entry.getValue().left(), entry.getValue().right());
     }
   }
@@ -159,12 +159,12 @@ public interface BiMap<K, V, S> {
    * @param value The pair of V and S to put into the specified key
    * @return Returns the pair of V and S from the specified key
    */
-  default Pairs<V, S> putIfAbsent(K key, Pairs<V, S> value) {
-    Pairs<V, S> pairs = get(key);
-    if (pairs == null) {
-      pairs = put(key, value);
+  default Pair<V, S> putIfAbsent(K key, Pair<V, S> value) {
+    Pair<V, S> pair = get(key);
+    if (pair == null) {
+      pair = put(key, value);
     }
-    return pairs;
+    return pair;
   }
 
   /**
@@ -176,8 +176,8 @@ public interface BiMap<K, V, S> {
    */
   default boolean remove(K key, Object value) {
     Objects.requireNonNull(value);
-    Pairs<V, S> pairs = get(key);
-    if (pairs != null && pairs.equals(value)) {
+    Pair<V, S> pair = get(key);
+    if (pair != null && pair.equals(value)) {
       remove(key);
       return true;
     }
@@ -192,11 +192,11 @@ public interface BiMap<K, V, S> {
    * @param newValue The new pair of V and S to replace
    * @return Returns true if the pair of V and S was replaced
    */
-  default boolean replace(K key, Pairs<V, S> oldValue, Pairs<V, S> newValue) {
+  default boolean replace(K key, Pair<V, S> oldValue, Pair<V, S> newValue) {
     Objects.requireNonNull(oldValue);
     Objects.requireNonNull(newValue);
-    Pairs<V, S> pairs = get(key);
-    if (pairs != null && pairs.equals(oldValue)) {
+    Pair<V, S> pair = get(key);
+    if (pair != null && pair.equals(oldValue)) {
       put(key, newValue);
       return true;
     }
@@ -210,13 +210,13 @@ public interface BiMap<K, V, S> {
    * @param value The new pair of V and S to replace
    * @return Returns the pair of V and S from the specified key
    */
-  default Pairs<V, S> replace(K key, Pairs<V, S> value) {
+  default Pair<V, S> replace(K key, Pair<V, S> value) {
     Objects.requireNonNull(value);
-    Pairs<V, S> pairs = get(key);
-    if (pairs != null) {
+    Pair<V, S> pair = get(key);
+    if (pair != null) {
       put(key, value);
     }
-    return pairs;
+    return pair;
   }
 
   /**
@@ -226,17 +226,17 @@ public interface BiMap<K, V, S> {
    * @param mappingFunction The function to compute the pair for the specified key
    * @return Returns the pair of V and S from the specified key
    */
-  default Pairs<V, S> computeIfAbsent(K key, Function<? super K, ? extends Pairs<V, S>> mappingFunction) {
+  default Pair<V, S> computeIfAbsent(K key, Function<? super K, ? extends Pair<V, S>> mappingFunction) {
     Objects.requireNonNull(mappingFunction);
-    Pairs<V, S> pairs = get(key);
-    if (pairs == null) {
-      Pairs<V, S> newValue = mappingFunction.apply(key);
+    Pair<V, S> pair = get(key);
+    if (pair == null) {
+      Pair<V, S> newValue = mappingFunction.apply(key);
       if (newValue != null) {
         put(key, newValue);
         return newValue;
       }
     }
-    return pairs;
+    return pair;
   }
 
   /**
@@ -246,11 +246,11 @@ public interface BiMap<K, V, S> {
    * @param remappingFunction The function to compute the pair for the specified key
    * @return Returns the pair of V and S from the specified key
    */
-  default Pairs<V, S> computeIfPresent(K key, BiFunction<? super K, ? super Pairs<V, S>, ? extends Pairs<V, S>> remappingFunction) {
+  default Pair<V, S> computeIfPresent(K key, BiFunction<? super K, ? super Pair<V, S>, ? extends Pair<V, S>> remappingFunction) {
     Objects.requireNonNull(remappingFunction);
-    Pairs<V, S> pairs = get(key);
-    if (pairs != null) {
-      Pairs<V, S> newValue = remappingFunction.apply(key, pairs);
+    Pair<V, S> pair = get(key);
+    if (pair != null) {
+      Pair<V, S> newValue = remappingFunction.apply(key, pair);
       if (newValue != null) {
         put(key, newValue);
         return newValue;
@@ -269,13 +269,13 @@ public interface BiMap<K, V, S> {
    * @param remappingFunction The function to compute the pair for the specified key
    * @return Returns the pair of V and S from the specified key
    */
-  default Pairs<V, S> compute(K key, BiFunction<? super K, ? super Pairs<V, S>, ? extends Pairs<V, S>> remappingFunction) {
+  default Pair<V, S> compute(K key, BiFunction<? super K, ? super Pair<V, S>, ? extends Pair<V, S>> remappingFunction) {
     Objects.requireNonNull(remappingFunction);
-    Pairs<V, S> pairs = get(key);
-    Pairs<V, S> newValue = remappingFunction.apply(key, pairs);
+    Pair<V, S> pair = get(key);
+    Pair<V, S> newValue = remappingFunction.apply(key, pair);
     if (newValue == null) {
       // delete mapping
-      if (pairs != null || containsKey(key)) {
+      if (pair != null || containsKey(key)) {
         // something to remove
         remove(key);
       }
@@ -295,15 +295,15 @@ public interface BiMap<K, V, S> {
    * @param remappingFunction The function to merge the pair of V and S from the specified key with the specified pair of V and S
    * @return Returns the pair of V and S from the specified key
    */
-  default Pairs<V, S> merge(K key, Pairs<V, S> value, BiFunction<? super Pairs<V, S>, ? super Pairs<V, S>, ? extends Pairs<V, S>> remappingFunction) {
+  default Pair<V, S> merge(K key, Pair<V, S> value, BiFunction<? super Pair<V, S>, ? super Pair<V, S>, ? extends Pair<V, S>> remappingFunction) {
     Objects.requireNonNull(value);
     Objects.requireNonNull(remappingFunction);
-    Pairs<V, S> pairs = get(key);
-    if (pairs == null) {
+    Pair<V, S> pair = get(key);
+    if (pair == null) {
       put(key, value);
       return value;
     } else {
-      Pairs<V, S> newValue = remappingFunction.apply(pairs, value);
+      Pair<V, S> newValue = remappingFunction.apply(pair, value);
       if (newValue == null) {
         remove(key);
         return null;

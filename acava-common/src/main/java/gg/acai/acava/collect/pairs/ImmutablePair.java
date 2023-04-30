@@ -3,13 +3,13 @@ package gg.acai.acava.collect.pairs;
 import gg.acai.acava.collect.Immutable;
 
 /**
- * Immutable implementation of {@link Pairs}.
+ * Immutable implementation of {@link Pair}.
  *
  * @author Clouke
  * @since 02.12.2022 18:16
  * © Acava - All Rights Reserved
  */
-public final class ImmutablePair<L, R> implements Pairs<L, R>, Immutable {
+public final class ImmutablePair<L, R> implements Pair<L, R>, Immutable {
 
   private final L left;
   private final R right;

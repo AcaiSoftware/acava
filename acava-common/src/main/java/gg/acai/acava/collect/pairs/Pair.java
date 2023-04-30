@@ -1,13 +1,19 @@
 package gg.acai.acava.collect.pairs;
 
-import gg.acai.acava.collect.Mutability;
-
 /**
  * @author Clouke
  * @since 02.12.2022 18:12
  * © Acava - All Rights Reserved
  */
-public interface Pairs<L, R> {
+public interface Pair<L, R> {
+
+  static <L, R> Pair<L, R> immutable(L left, R right) {
+    return new ImmutablePair<>(left, right);
+  }
+
+  static <L, R> Pair<L, R> mutable(L left, R right) {
+    return new MutablePair<>(left, right);
+  }
 
   /**
    * Gets the left value of the pair.
@@ -36,17 +42,5 @@ public interface Pairs<L, R> {
    * @param right The right value to set.
    */
   void setRight(R right);
-
-  /**
-   * Creates a new pair based on the given mutability.
-   *
-   * @param m     The mutability of the pair.
-   * @param left  The left value of the pair.
-   * @param right The right value of the pair.
-   * @return Returns a new pair based on the given mutability.
-   */
-  static <L, R> Pairs<L, R> of(Mutability m, L left, R right) {
-    return m == Mutability.MUTABLE ? new MutablePair<>(left, right) : new ImmutablePair<>(left, right);
-  }
 
 }

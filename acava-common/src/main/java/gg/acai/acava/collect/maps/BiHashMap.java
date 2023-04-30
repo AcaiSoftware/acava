@@ -1,7 +1,7 @@
 package gg.acai.acava.collect.maps;
 
 import gg.acai.acava.collect.pairs.MutablePair;
-import gg.acai.acava.collect.pairs.Pairs;
+import gg.acai.acava.collect.pairs.Pair;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class BiHashMap<K, V, S> implements BiMap<K, V, S> {
 
-  private final Map<K, Pairs<V, S>> map;
+  private final Map<K, Pair<V, S>> map;
 
   public BiHashMap() {
     this.map = new HashMap<>();
@@ -40,8 +40,8 @@ public class BiHashMap<K, V, S> implements BiMap<K, V, S> {
 
   @Override
   public boolean containsValue(V value) {
-    for (Pairs<V, S> pairs : map.values()) {
-      if (pairs.left().equals(value)) {
+    for (Pair<V, S> pair : map.values()) {
+      if (pair.left().equals(value)) {
         return true;
       }
     }
@@ -50,8 +50,8 @@ public class BiHashMap<K, V, S> implements BiMap<K, V, S> {
 
   @Override
   public boolean containsSecondValue(S secondValue) {
-    for (Pairs<V, S> pairs : map.values()) {
-      if (pairs.right().equals(secondValue)) {
+    for (Pair<V, S> pair : map.values()) {
+      if (pair.right().equals(secondValue)) {
         return true;
       }
     }
@@ -60,23 +60,23 @@ public class BiHashMap<K, V, S> implements BiMap<K, V, S> {
 
 
   @Override
-  public Pairs<V, S> get(K key) {
+  public Pair<V, S> get(K key) {
     return map.get(key);
   }
 
   @Override
-  public Pairs<V, S> put(K key, V value, S secondValue) {
+  public Pair<V, S> put(K key, V value, S secondValue) {
     return map.put(key, new MutablePair<>(value, secondValue));
   }
 
   @Override
-  public Pairs<V, S> remove(K key) {
+  public Pair<V, S> remove(K key) {
     return map.remove(key);
   }
 
   @Override
   public void putAll(BiMap<? extends K, ? extends V, ? extends S> m) {
-    for (Map.Entry<? extends K, ? extends Pairs<? extends V, ? extends S>> entry : m.entrySet()) {
+    for (Map.Entry<? extends K, ? extends Pair<? extends V, ? extends S>> entry : m.entrySet()) {
       put(entry.getKey(), entry.getValue().left(), entry.getValue().right());
     }
   }
@@ -89,9 +89,9 @@ public class BiHashMap<K, V, S> implements BiMap<K, V, S> {
   @Override
   public BiMap<V, K, S> inverse() {
     BiMap<V, K, S> inverse = new BiHashMap<>();
-    for (Map.Entry<K, Pairs<V, S>> entry : map.entrySet()) {
+    for (Map.Entry<K, Pair<V, S>> entry : map.entrySet()) {
       K key = entry.getKey();
-      Pairs<V, S> value = entry.getValue();
+      Pair<V, S> value = entry.getValue();
       V left = value.left();
       S secondValue = value.right();
       inverse.put(left, key, secondValue);
@@ -105,12 +105,12 @@ public class BiHashMap<K, V, S> implements BiMap<K, V, S> {
   }
 
   @Override
-  public Collection<Pairs<V, S>> values() {
+  public Collection<Pair<V, S>> values() {
     return map.values();
   }
 
   @Override
-  public Set<Map.Entry<K, Pairs<V, S>>> entrySet() {
+  public Set<Map.Entry<K, Pair<V, S>>> entrySet() {
     return map.entrySet();
   }
 }
